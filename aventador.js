@@ -1,58 +1,66 @@
 (function(window, undefined) {
 	"use strict";
 
-	window.aventador = (function() {
-
-		// the single object the will be used throughout the framework
-		var _app = {
-			name: undefined,
-			handlers: [],
-			services: [],
-			utils: {}
-		};
-
-		/*=== Some native javascript data ulities ===*/
-		_app.utils.nativeData = {
+	/**
+	* Simple JS helper functions.
+	*/
+	var helpers = {
+		data: {
 			isString: function (data) {
 				return typeof data === 'string';
 			},
 			isUndefined: function (data) {
 				return typeof data === 'undefined';
 			}
-		};
-
-		/*=== Aventador's error utility ===*/
-		_app.utils.error = {
-			notify: function (message) {
-				throw "Aventador Error: " + message;
+		},
+		array: {
+			keyExists: function(key, array) {
+				return !helpers.data.isUndefined(array[key]);
 			}
+		}	
+	};
+
+	var aventadorException = (function() {
+		return {
+			notify: notify
+		}
+
+		function notify() {
+			throw "Aventador Exception: " + message;	
+		}
+	});
+
+	window.aventador = (function(helpers, exception) {
+
+		// the single object the will be used throughout the framework
+		var _app = {
+			name: undefined,
+			handlers: [],
+			services: []
 		};
 
-		/*=== localized variables (Single-Variable Responsibility) ===*/
-		var data = _app.utils.nativeData,
-			error = _app.utils.error;
+		/*=== localize variables (Single-Variable Responsibility) ===*/
+		var data = helpers.data,
+			array = helpers.array;
 
-		/**
-		* - create an app namespace
-		* - return self. must be chaining
-		*/
 		function createApp(appname) {
 
 			if (arguments.length < 1) {
-				error.notify("Appname is required.");
+				exception.notify("Appname is required.");
 			}
 
 			if (!data.isUndefined(_app.name)) {
-				error.notify("Appname already exists.");
+				exception.notify("Appname already exists.");
 			}
 
 			if (!data.isString(appname)) {
-				error.notify("Appname must be a string.");
+				exception.notify("Appname must be a string.");
 			}
 
 			_app.name = appname;
 
-			return this;
+			// make the appname as the namespace of the app
+			return window[_app.name] = this;
 		}
 
 		/**
@@ -62,12 +70,22 @@
 			return _app.name;
 		}
 
+		/**
+		* Create a handler
+		*/
+		function handler(handlerName, handler) {
+			if (!array.keyExists(handlerName, _app.handlers)) {
+				exception.notify(handlerName + " already a defined handler.");
+			}
+		}
+
 		/*=== encalsulate aventador ====*/
 		return {
 			createApp: createApp,
-			getAppName: getAppName
+			getAppName: getAppName,
+			handler: handler
 		};
 
-	})();
+	})(helpers, aventadorException);
 
 })(window, undefined);

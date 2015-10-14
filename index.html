@@ -7,7 +7,14 @@
 	<script src="aventador.js"></script>
 
 	<script>
-		console.log(aventador.createApp('ontrack').getAppName());
+
+		aventador.create();
+
+		// ontrack - your app is namespaced
+		ontrack.handler('TweetHandler', function() {
+
+		});
+
 	</script>
 </body>
 </html>
