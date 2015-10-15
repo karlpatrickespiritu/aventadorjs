@@ -1,20 +1,49 @@
 <html>
 <head>
-	<meta charset="UTF-8">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <title>Document</title>
 </head>
 <body>
-	<script src="aventador.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="aventador.js"></script>
 
-	<script>
+<button>click me</button>
 
-		aventador.create();
+<script>
 
-		// ontrack - your app is namespaced
-		ontrack.handler('TweetHandler', function() {
+    var ontrack = aventador.createApp('ontrack');
 
-		});
+    // build in factories [handlers, services, utilities]
+    ontrack.handler('TwitterHander', function () {});
+    ontrack.service('DatabaseService', function () {});
+    ontrack.utility('DatabaseService', function () {});
 
-	</script>
+
+    // custom modules
+    ontrack.module('factory');
+
+    ontrack.factory('UserFactory', function() {
+        return {
+            get: getUserById
+        }
+
+        function getUserById(id) {
+            return {
+                id: id,
+                name: 'somename'
+            }
+        }
+    });
+
+
+
+    // there should be..
+    /*var UserFactory = ontrack.getFactory('UserFactory');
+
+    $('button').on('click', function() {
+        UserFactory.getUserById(1);
+    });*/
+
+</script>
 </body>
 </html>
