@@ -128,7 +128,8 @@
         function service() {}
         function utility() {}
 
-        function module(moduleName) {
+        /*function module(moduleName) {
+
             if (!data.isString(moduleName)) {
                 exception.notify("Module name must be a string. " + string.capitalizeFirstLetter(typeof moduleName) + " was passed.")
             }
@@ -145,11 +146,41 @@
             this[moduleName] = _createModuleChild();
 
             return this;
+        }*/
+
+        function module(module, childModuleName, childModuleFunction) {
+            // *check if module exists
+            // if not, create a new module and populate the given child module
+            // if already exists, create a new child module for the module only if the child module still doent't exists.
+            // if a child module already exists, throw an exeption.
+
+            // TODO:: dependencies on childModule function()
+
+            if (!data.isString(module)) {
+                exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof module) + " was passed.")
+            }
+
+            if (!data.isString(childModuleName)) {
+                exception.notify("Second parameter must be a string. " + string.capitalizeFirstLetter(typeof childModuleName) + " was passed.")
+            }
+
+            if(!data.isFunction(childModuleFunction)) {
+                exception.notify("Third parameter must be a function. " + string.capitalizeFirstLetter(typeof childModuleFunction) + " was passed.")
+            }
+
+            return;
+
+            if (moduleExists(module)) {
+                exception.notify("`" + module + "` module already exists.");
+            } else {
+
+            }
+
         }
 
         function _createModuleChild() {
             return function(name, functionality) {
-                console.log(_app.modules);
+
                 if (arguments.length != 2) {
                     exception.notify("Module child name and function required.");
                 }
@@ -168,11 +199,11 @@
 
         /**
          * checks if a module already exists.
-         * @param moduleName
+         * @param module
          * @returns {boolean}
          */
-        function moduleExists(moduleName) {
-            return _app.modules.hasOwnProperty(moduleName);
+        function moduleExists(module) {
+            return _app.modules.hasOwnProperty(module);
         }
 
         return {

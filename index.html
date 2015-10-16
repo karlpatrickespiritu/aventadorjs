@@ -1,49 +1,15 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Document</title>
+    <title>Aventador</title>
 </head>
 <body>
-<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="aventador.js"></script>
 
-<button>click me</button>
+<footer>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="aventador.js"></script>
+    <script src="how-to-use.js"></script>
+</footer>
 
-<script>
-
-    var ontrack = aventador.createApp('ontrack');
-
-    // build in factories [handlers, services, utilities]
-    ontrack.handler('TwitterHander', function () {});
-    ontrack.service('DatabaseService', function () {});
-    ontrack.utility('DatabaseService', function () {});
-
-
-    // custom modules
-    ontrack.module('factory');
-
-    ontrack.factory('UserFactory', function() {
-        return {
-            get: getUserById
-        }
-
-        function getUserById(id) {
-            return {
-                id: id,
-                name: 'somename'
-            }
-        }
-    });
-
-
-
-    // there should be..
-    /*var UserFactory = ontrack.getFactory('UserFactory');
-
-    $('button').on('click', function() {
-        UserFactory.getUserById(1);
-    });*/
-
-</script>
 </body>
 </html>
