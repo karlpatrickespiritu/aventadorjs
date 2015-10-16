@@ -14,11 +14,17 @@
             },
             isFunction: function(data) {
                 return typeof data === 'function';
+            },
+            isArray: function(data) {
+                return data.constructor === Array;
             }
         },
         array: {
             keyExists: function (key, array) {
                 return !helpers.data.isUndefined(array[key]);
+            },
+            getIndex: function(array, property) {
+                return array.indexOf(property);
             }
         },
         string: {
@@ -41,9 +47,50 @@
         }
     })();
 
+    /**
+     * Parameter checker
+     */
+    var params = (function (helpers) {
+        // localize helpers
+        var data = helpers.data,
+            string = helpers.string,
+            array = helpers.array;
 
-    window.aventador = (function (helpers, exception) {
+        function expect(expectation, callback) {
 
+            // check for null
+            // callback is optional
+
+            if (arguments.length < 2) {
+                throw "Invalid number of arguments.";
+            }
+
+            if (!data.isArray(expectation)) {
+                _throwError(1, 'array');
+            }
+
+            if (!data.isFunction(callback)) {
+                _throwError(2, 'function');
+            }
+        }
+
+        function _throwError(argumentIndex, mustbe) {
+            throw {
+                name: 'name',
+                message: 'message'
+            };
+            return;
+            throw "Exception: argument number " + argumentIndex + " must be an " + mustbe;
+        }
+
+        return {
+            expect: expect
+        }
+    })(helpers);
+
+    window.aventador = (function (helpers, exception, params) {
+
+        console.log(params.expect([], 1));
         // the single object the will be used throughout the framework
         var _app = {
             name: undefined,
@@ -128,31 +175,12 @@
         function service() {}
         function utility() {}
 
-        /*function module(moduleName) {
-
-            if (!data.isString(moduleName)) {
-                exception.notify("Module name must be a string. " + string.capitalizeFirstLetter(typeof moduleName) + " was passed.")
-            }
-
-            if (moduleExists(moduleName)) {
-                exception.notify("`" + moduleName + "` module already exists.");
-            }
-
-            // add module
-            _app.modules[moduleName] = {};
-
-            // TODO:: dependency injection
-
-            this[moduleName] = _createModuleChild();
-
-            return this;
-        }*/
-
         function module(module, childModuleName, childModuleFunction) {
+
             // *check if module exists
             // if not, create a new module and populate the given child module
-            // if already exists, create a new child module for the module only if the child module still doent't exists.
-            // if a child module already exists, throw an exeption.
+            // if already exists, create a new child module for the module only if the child module still doesn't exists.
+            // if a child module already exists, throw an exception.
 
             // TODO:: dependencies on childModule function()
 
@@ -210,5 +238,6 @@
             createApp: createApp
         };
 
-    })(helpers, aventadorException);
+    })(helpers, aventadorException, params);
+
 })(window, undefined);
