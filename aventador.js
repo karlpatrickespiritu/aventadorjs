@@ -50,87 +50,7 @@
         }
     })();
 
-    /**
-     * Parameter checker
-     */
-    var args = (function () {
-
-        function expect(args, expectations, callback) {
-
-            // TODO:: check if args is instance of arguments object?
-
-            if (arguments.length < 1 || !(expectations.constructor === Array)) {
-                _throwArgumentDataTypeException(2, 'array');
-            }
-
-            // TODO:: check if valid strings on expectations
-
-            if (expectations.length) {
-                for (var i = 0; i <= (expectations.length -1); i++) {
-                    var argType = typeof args[i],
-                        argExpectations = expectations[i].split('|');
-
-                    console.log(argExpectations);
-
-                    if ((argType === 'undefined') || (argType !== expectations[i])) {}
-
-                    //if ((typeof args[i] === 'undefined') || (typeof args[i] !== expectations[i])) {
-                    //    _throwArgumentDataTypeException((i+1), expectations[i]);
-                    //}
-                }
-            } else {
-                //
-            }
-        }
-
-        /**
-         * Checks if string passed is a valid javascript data type.
-         * @param {string}
-         * @returns {boolean}
-         */
-        function validDataType(dataType) {
-            return ['object', 'function', 'string', 'number', 'boolean'].indexOf(dataType) !== -1;
-        }
-
-        /**
-         * Throws an argument exception if the function had an invalid argument data type
-         * @param {integer}
-         * @param {string}
-         * @private
-         */
-        function _throwArgumentDataTypeException(argumentIndex, mustbe) {
-            var an = ['object'],
-                a = ['function', 'string', 'number', 'boolean'],
-                article = '';
-
-            if (!validDataType(mustbe)) {
-                throw new ArgumentException("Argument number " + argumentIndex + " is not a valid type. only ");
-            }
-
-            article = (a.indexOf(mustbe) !== -1) ? 'a': 'an';
-
-            throw new ArgumentException("Argument number " + argumentIndex + " must be " + article + " " + mustbe);
-        }
-
-        /**
-         * ArgumentException object
-         * @param {string}
-         */
-        function ArgumentException(message) {
-            this.message = message;
-            this.name = "ArgumentException";
-            this.toString = function() {
-                return this.name + ": " + this.message;
-            };
-        }
-
-        return {
-            expect: expect
-        }
-
-    })();
-
-    window.aventador = (function (helpers, exception, args) {
+    window.aventador = (function (helpers, exception) {
 
         // the single object the will be used throughout the framework
         var _app = {
@@ -189,9 +109,6 @@
         }
 
         function handler(handlerName, handler) {
-
-            args.expect(arguments, ['array/number', 'function', 'object']);
-            return;
 
             if (arguments.length != 2) {
                 exception.notify("Handler name and function required.");
@@ -282,6 +199,6 @@
             createApp: createApp
         };
 
-    })(helpers, aventadorException, args);
+    })(helpers, aventadorException);
 
 })(window, undefined);
