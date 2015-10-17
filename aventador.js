@@ -20,6 +20,9 @@
             }
         },
         array: {
+            exists: function (array, data) {
+                return array.indexOf(data) !== -1;
+            },
             keyExists: function (key, array) {
                 return !helpers.data.isUndefined(array[key]);
             },
@@ -50,47 +53,85 @@
     /**
      * Parameter checker
      */
-    var params = (function (helpers) {
-        // localize helpers
-        var data = helpers.data,
-            string = helpers.string,
-            array = helpers.array;
+    var args = (function () {
 
-        function expect(expectation, callback) {
+        function expect(args, expectations, callback) {
 
-            // check for null
-            // callback is optional
+            // TODO:: check if args is instance of arguments object?
 
-            if (arguments.length < 2) {
-                throw "Invalid number of arguments.";
+            if (arguments.length < 1 || !(expectations.constructor === Array)) {
+                _throwArgumentDataTypeException(2, 'array');
             }
 
-            if (!data.isArray(expectation)) {
-                _throwError(1, 'array');
-            }
+            // TODO:: check if valid strings on expectations
 
-            if (!data.isFunction(callback)) {
-                _throwError(2, 'function');
+            if (expectations.length) {
+                for (var i = 0; i <= (expectations.length -1); i++) {
+                    var argType = typeof args[i],
+                        argExpectations = expectations[i].split('|');
+
+                    console.log(argExpectations);
+
+                    if ((argType === 'undefined') || (argType !== expectations[i])) {}
+
+                    //if ((typeof args[i] === 'undefined') || (typeof args[i] !== expectations[i])) {
+                    //    _throwArgumentDataTypeException((i+1), expectations[i]);
+                    //}
+                }
+            } else {
+                //
             }
         }
 
-        function _throwError(argumentIndex, mustbe) {
-            throw {
-                name: 'name',
-                message: 'message'
+        /**
+         * Checks if string passed is a valid javascript data type.
+         * @param {string}
+         * @returns {boolean}
+         */
+        function validDataType(dataType) {
+            return ['object', 'function', 'string', 'number', 'boolean'].indexOf(dataType) !== -1;
+        }
+
+        /**
+         * Throws an argument exception if the function had an invalid argument data type
+         * @param {integer}
+         * @param {string}
+         * @private
+         */
+        function _throwArgumentDataTypeException(argumentIndex, mustbe) {
+            var an = ['object'],
+                a = ['function', 'string', 'number', 'boolean'],
+                article = '';
+
+            if (!validDataType(mustbe)) {
+                throw new ArgumentException("Argument number " + argumentIndex + " is not a valid type. only ");
+            }
+
+            article = (a.indexOf(mustbe) !== -1) ? 'a': 'an';
+
+            throw new ArgumentException("Argument number " + argumentIndex + " must be " + article + " " + mustbe);
+        }
+
+        /**
+         * ArgumentException object
+         * @param {string}
+         */
+        function ArgumentException(message) {
+            this.message = message;
+            this.name = "ArgumentException";
+            this.toString = function() {
+                return this.name + ": " + this.message;
             };
-            return;
-            throw "Exception: argument number " + argumentIndex + " must be an " + mustbe;
         }
 
         return {
             expect: expect
         }
-    })(helpers);
 
-    window.aventador = (function (helpers, exception, params) {
+    })();
 
-        console.log(params.expect([], 1));
+    window.aventador = (function (helpers, exception, args) {
+
         // the single object the will be used throughout the framework
         var _app = {
             name: undefined,
@@ -149,16 +190,19 @@
 
         function handler(handlerName, handler) {
 
+            args.expect(arguments, ['array/number', 'function', 'object']);
+            return;
+
             if (arguments.length != 2) {
                 exception.notify("Handler name and function required.");
             }
 
             if (!data.isString(handlerName)) {
-                exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof handler) + " was passed.");
+                exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof handler) + " was passed");
             }
 
             if (!data.isFunction(handler)) {
-                exception.notify("Second parameter is not a function. " + string.capitalizeFirstLetter(typeof handler) + " was passed.");
+                exception.notify("Second parameter is not a function. " + string.capitalizeFirstLetter(typeof handler) + " was passed");
             }
 
             if (array.keyExists(handlerName, _app.modules.handlers)) {
@@ -185,15 +229,15 @@
             // TODO:: dependencies on childModule function()
 
             if (!data.isString(module)) {
-                exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof module) + " was passed.")
+                exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof module) + " was passed")
             }
 
             if (!data.isString(childModuleName)) {
-                exception.notify("Second parameter must be a string. " + string.capitalizeFirstLetter(typeof childModuleName) + " was passed.")
+                exception.notify("Second parameter must be a string. " + string.capitalizeFirstLetter(typeof childModuleName) + " was passed")
             }
 
             if(!data.isFunction(childModuleFunction)) {
-                exception.notify("Third parameter must be a function. " + string.capitalizeFirstLetter(typeof childModuleFunction) + " was passed.")
+                exception.notify("Third parameter must be a function. " + string.capitalizeFirstLetter(typeof childModuleFunction) + " was passed")
             }
 
             return;
@@ -210,15 +254,15 @@
             return function(name, functionality) {
 
                 if (arguments.length != 2) {
-                    exception.notify("Module child name and function required.");
+                    exception.notify("Module child name and function required");
                 }
 
                 if (!data.isString(name)) {
-                    exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof functionality) + " was passed.");
+                    exception.notify("First parameter is not a string. " + string.capitalizeFirstLetter(typeof functionality) + " was passed");
                 }
 
                 if (!data.isFunction(functionality)) {
-                    exception.notify("Second parameter is not function. " + string.capitalizeFirstLetter(typeof functionality) + " was passed.");
+                    exception.notify("Second parameter is not function. " + string.capitalizeFirstLetter(typeof functionality) + " was passed");
                 }
 
                 return (_app.modules.factory[name] = functionality)();
@@ -238,6 +282,6 @@
             createApp: createApp
         };
 
-    })(helpers, aventadorException, params);
+    })(helpers, aventadorException, args);
 
 })(window, undefined);
