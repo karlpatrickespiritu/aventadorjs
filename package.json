@@ -1,0 +1,35 @@
+{
+  "name": "aventadorjs",
+  "version": "0.0.0",
+  "description": "a javascript module organizer",
+  "main": "",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/karlpatrickespiritu/aventadorjs.git"
+  },
+  "keywords": [
+    "javascript",
+    "module",
+    "organizer",
+    "namespaced",
+    "namespacing",
+    "modules"
+  ],
+  "author": "karlpatrickespiritu <http://github.com/karlpatrickespiritu>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/karlpatrickespiritu/aventadorjs/issues"
+  },
+  "homepage": "https://github.com/karlpatrickespiritu/aventadorjs",
+  "devDependencies": {
+    "chai": "^3.4.0",
+    "del": "^2.0.2",
+    "gulp-concat": "^2.6.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-uglify": "^1.4.2",
+    "mocha": "^2.3.3"
+  }
+}
