@@ -1,15 +1,22 @@
 
-var myapp = aventador.createApp('ontrack');
+// aventador default module
+aventador
+    .module('myApp').
 
-myapp.handler();
+    controller('UsersHandler', function (/* dependencies */) {
 
-// build in factories [handlers, services, utilities]
-myapp.handler('TwitterHander', function (/*Dependencies*/) {});
-myapp.service('DatabaseService', function (/*Dependencies*/) {});
-myapp.utility('DatabaseService', function (/*Dependencies*/) {});
+    }).
 
-// create a new module
-myapp.module('handler', 'Facebookhandler', function(/*Dependencies*/) {});
+    model('UsersModel', function (/* dependencies */) {
 
-// create a new module - factory
-myapp.module('factory', 'UserFactory', function (/*Dependencies*/) {});
+    })
+
+    service('TwitterUsersService', function (/* dependencies */) {
+
+    }).
+
+    utility('UsersUtility', function (/* dependencies */) {
+
+    });
+
+// aventador custom module
