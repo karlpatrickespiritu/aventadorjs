@@ -45,8 +45,16 @@
             }
         },
         string: {
-            capitalizeFirstLetter: function (string) {
+            upperCaseFirst: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
+            },
+            upperCaseWords: function(string) {
+                var words = string.split(' ');
+                
+                for(var i = 0; i <= (words.length - 1); i++)
+                    words[i] = helpers.string.upperCaseFirst(words[i]);
+
+                return words.join(' ');
             }
         }
     };
