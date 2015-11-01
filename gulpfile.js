@@ -8,7 +8,7 @@ gulp.task('clean', function() {
     del([
         './dist/*.js'
     ]).then(function(paths) {
-        console.log(paths);
+        // console.log(paths);
     })
 });
 

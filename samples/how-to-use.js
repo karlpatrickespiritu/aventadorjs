@@ -1,22 +1,28 @@
-
 // aventador default module
 aventador
-    .module('myApp').
+    
+    .module('myApp')
 
-    controller('UsersHandler', function (/* dependencies */) {
-
-    }).
-
-    model('UsersModel', function (/* dependencies */) {
+    .controller('UsersHandler', function (/* dependencies */) {
 
     })
 
-    service('TwitterUsersService', function (/* dependencies */) {
+    .model('UsersModel', function (/* dependencies */) {
 
-    }).
+    })
 
-    utility('UsersUtility', function (/* dependencies */) {
+    .service('TwitterUsersService', function (/* dependencies */) {
+
+    })
+
+    .utility('UsersUtility', function (/* dependencies */) {
 
     });
 
 // aventador custom module
+aventador
+	.module('myApp')
+	.custom('someCustomModule')
+	.someCustomModule('CustomSomething', function () {
+		
+	});
