@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/karlpatrickespiritu/aventadorjs",
   "devDependencies": {
+    "args-checker-js": "^1.0.3",
     "chai": "^3.4.0",
     "del": "^2.0.2",
     "gulp-concat": "^2.6.0",

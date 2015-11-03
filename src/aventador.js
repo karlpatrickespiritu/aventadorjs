@@ -130,7 +130,7 @@
             helpers: helpers
         }
 
-    })(helpers, args)
+    })(helpers, window.args)
 
     // expose to global object
     window.aventador = aventador
