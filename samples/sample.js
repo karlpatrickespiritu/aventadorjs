@@ -25,6 +25,18 @@
 			}
 		})
 
-	console.log(myApp);
+        .controller('CartsController', function(ProductsController, UsersController) {
+            console.log(ProductsController, UsersController);
+
+            function getByCartId () {
+                return 'call a service here..'
+            }
+
+            return {
+                getByCartId: getByCartId
+            }
+        })
+
+    console.log(myApp);
 
 })()
