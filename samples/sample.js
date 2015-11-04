@@ -14,7 +14,7 @@
 			}
 		})
 
-		.controller('ProductsController', function() {
+		.controller('ProductsController', function(UsersController) {
 
 			function getByProductId () {
 				return 'call a service here..'
@@ -26,7 +26,9 @@
 		})
 
         .controller('CartsController', function(ProductsController, UsersController) {
-            console.log(ProductsController, UsersController);
+
+            console.log(ProductsController)
+            console.log(UsersController)
 
             function getByCartId () {
                 return 'call a service here..'
@@ -36,7 +38,5 @@
                 getByCartId: getByCartId
             }
         })
-
-    console.log(myApp);
 
 })()

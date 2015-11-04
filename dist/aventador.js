@@ -148,7 +148,7 @@ if (typeof exports !== 'undefined') {
  *
  * The Project Goal:
  * 1. enable the user to have a namespaced project
- * 2. offer user default modules (handlers, services, utilities, etc..)
+ * 2. offer user default modules to work for (handlers, services, utilities, etc..)
  * 3. enable the user to create custom modules.
  * 4. offer basic helpers.
  * 3. enable module dependency injection
@@ -209,7 +209,8 @@ if (typeof exports !== 'undefined') {
         var _app = {
             // the indicator what module is currently used 
             activeModule: undefined,
-            modules: {}
+            modules: {},
+            defaultModuleLayers: ['controllers', 'services', 'utilities', 'models']
         }
 
         // localize variables (Single-Variable Responsibility)
@@ -218,14 +219,26 @@ if (typeof exports !== 'undefined') {
             obj = helpers.obj,
             string = helpers.string
 
+        /**
+         * AventadorException object
+         * @param {String}
+         */
+        function AventadorException(message) {
+            this.name = "AventadorException"
+            this.message = message
+            this.toString = function () {
+                return this.name + ": " + this.message
+            }
+        }
+
         function module(moduleName) {
             args.expect(arguments, ['string'])
 
             if (!obj.keyExists(moduleName, _app.modules)) {
-                _app.modules[moduleName] = {};
+                _app.modules[moduleName] = {}
             }
 
-            _app.activeModule = moduleName;
+            _app.activeModule = moduleName
 
             _initModule()
 
@@ -241,58 +254,9 @@ if (typeof exports !== 'undefined') {
         function controller(controllerName, controllerFunction) {
             args.expect(arguments, ['string', 'function'])
 
-            var dependencies = getFunctionDependecies(controllerFunction),
-                module = _app.modules[_app.activeModule]
-
-            for (var i = 0; i <= (dependencies.length - 1); i++) {
-                if (obj.keyExists(dependencies[i], module.controllers)) {
-                    // var d = module.controllers[dependencies[i]];
-                }
-            }
-
-            module.controllers[controllerName] = controllerFunction()
+            _app.modules[_app.activeModule]['controllers'][controllerName] = controllerFunction.apply(this, getDependencies(controllerFunction))
 
             return this
-        }
-
-        function getChildModule(parentModuleName, childModuleName) {
-            args.expect(arguments, ['string', 'string'])
-
-            console.log(_app.modules[_app.activeModule][parentModuleName]);
-        }
-
-        /**
-         * This function returns the expected parameter names of a function. Hence, dependency injection(DI).
-         * Thanks for this blog (http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript),
-         * I've copied Angular's dependecy injection regular expression pattern (evil laugh).
-         *
-         * @param {Function}
-         * @returns {Array}
-         */
-        function getFunctionDependecies(fn) {
-            args.expect(arguments, ['function'])
-            return fn.toString().match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1].replace(/ /g, '').split(',')
-        }
-
-
-        function _initModule() {
-            var module = _app.modules[_app.activeModule];
-
-            if (!obj.keyExists('controllers', _app.modules[_app.activeModule])) {
-                module.controllers = {};
-            }
-
-            if (!obj.keyExists('models', _app.modules[_app.activeModule])) {
-                module.models = {};
-            }
-
-            if (!obj.keyExists('services', _app.modules[_app.activeModule])) {
-                module.services = {};
-            }
-
-            if (!obj.keyExists('utilities', _app.modules[_app.activeModule])) {
-                module.utilities = {};
-            }
         }
 
         function service() {
@@ -302,6 +266,67 @@ if (typeof exports !== 'undefined') {
         }
 
         function model() {
+        }
+
+        /**
+         *
+         * @param {Function}
+         * @returns {Array}
+         */
+        function getDependencies(fn) {
+            args.expect(arguments, ['function'])
+
+            var dependencies = getFunctionDependecyNames(fn),
+                module = _app.modules[_app.activeModule]
+
+            for (var i = 0; i < dependencies.length; i++) {
+                for (var j = 0; j < _app.defaultModuleLayers; j++) {
+                    console.log(_app.defaultModuleLayers[j])
+                    /*if (obj.keyExists(dependencies[i], module[_app.defaultModuleLayers[j]])) {
+                        dependencies[i] = module[_app.defaultModuleLayers[j]]
+                    } else {
+                        throw new AventadorException('dependency - ' + dependencies[i] + ' doesn\'t exists.')
+                    }*/
+                }
+                /*if (obj.keyExists(dependencies[i], module.controllers)) {
+                    dependencies[i] = module.controllers[dependencies[i]]
+                } else if (obj.keyExists(dependencies[i], module.services)) {
+                    dependencies[i] = module.services[dependencies[i]]
+                } else if (obj.keyExists(dependencies[i], module.utilities)) {
+                    dependencies[i] = module.utilities[dependencies[i]]
+                } else if (obj.keyExists(dependencies[i], module.models)) {
+                    dependencies[i] = module.models[dependencies[i]]
+                } else {
+                    throw new AventadorException('dependency - ' + dependencies[i] + ' doesn\'t exists.')
+                }*/
+            }
+
+            return dependencies
+        }
+
+        /**
+         * This function returns the expected parameter names of a function. Hence, dependency injection(DI).
+         * Thanks for this blog (http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript),
+         * I've copied Angular's dependecy injection regular expression pattern (evil laugh), with the addition
+         * of .filter(Boolean) to remove empty strings.
+         *
+         * @param {Function}
+         * @returns {Array}
+         */
+        function getFunctionDependecyNames(fn) {
+            args.expect(arguments, ['function'])
+            return fn.toString().match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1].replace(/ /g, '').split(',').filter(Boolean)
+        }
+
+
+        function _initModule() {
+            var module = _app.modules[_app.activeModule]
+
+            for (var i = 0; i < _app.defaultModuleLayers.length; i++) {
+                if (!obj.keyExists(_app.defaultModuleLayers[i], module)) {
+                    module[_app.defaultModuleLayers[i]] = {}
+                }
+            }
         }
 
         return {

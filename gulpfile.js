@@ -21,7 +21,7 @@ gulp.task('clean', function() {
     })
 })
 
-gulp.task('scripts', function(done) {
+gulp.task('scripts', function() {
 
     // not minified
     gulp.src(app.src)
@@ -36,7 +36,6 @@ gulp.task('scripts', function(done) {
         .pipe(uglify())
         .pipe(gulp.dest('./dist'))
 
-    done()
 })
 
 gulp.task('watch', function () {
