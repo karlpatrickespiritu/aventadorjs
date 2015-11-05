@@ -73,20 +73,21 @@
             }
 
             for (var i = 0; i <= (functionArgs.length - 1); i++) {
-                var argumentExpectations = expectations[i].split('|');
+                var argumentExpectations = expectations[i].split('|'),
+                    passedDataType = (functionArgs[i].constructor === Array ? 'array': typeof functionArgs[i])
 
                 if (argumentExpectations.indexOf('*') !== -1) {
                     continue;
                 }
 
-                if (argumentExpectations.indexOf(typeof functionArgs[i]) === -1) {
-                    var message = "Argument number " + (i + 1) + " must be " + expectations[i] + ", " + typeof functionArgs[i] + " was passed.";
+                if (argumentExpectations.indexOf(passedDataType) === -1) {
+                    var message = "Argument number " + (i + 1) + " must be " + expectations[i] + ", " + passedDataType + " was passed.";
 
                     // add results
                     results.passed = false;
-                    results.errors['argument ' + (i + 1)] = {
+                    results.errors['argument' + (i + 1)] = {
                         passedData: functionArgs[i],
-                        passedDataType: typeof functionArgs[i],
+                        passedDataType: passedDataType,
                         expects: argumentExpectations,
                         message: message
                     };
@@ -116,7 +117,7 @@
          * @returns {boolean}
          */
         function validExpectation(stringDataType) {
-            return ['object', 'function', 'string', 'number', 'boolean', '*'].indexOf(stringDataType) !== -1;
+            return ['object', 'array', 'function', 'string', 'number', 'boolean', '*'].indexOf(stringDataType) !== -1;
         }
 
         /**
@@ -147,7 +148,7 @@ if (typeof exports !== 'undefined') {
  * Dear Author,
  *
  * The Project Goal:
- * 1. enable the user to have a namespaced project
+ * 1. enable the user to have a name-spaced project
  * 2. offer user default modules to work for (handlers, services, utilities, etc..)
  * 3. enable the user to create custom modules.
  * 4. offer basic helpers.
@@ -221,6 +222,7 @@ if (typeof exports !== 'undefined') {
 
         /**
          * AventadorException object
+         *
          * @param {String}
          */
         function AventadorException(message) {
@@ -231,6 +233,13 @@ if (typeof exports !== 'undefined') {
             }
         }
 
+        /**
+         * This method created default layers for a module if module is first created.
+         * Returns module public methods (controller, models, utility).
+         *
+         * @param {String}
+         * @returns {Object}
+         */
         function module(moduleName) {
             args.expect(arguments, ['string'])
 
@@ -240,7 +249,7 @@ if (typeof exports !== 'undefined') {
 
             _app.activeModule = moduleName
 
-            _initModule()
+            _createLayers()
 
             return {
                 _app: _app,
@@ -252,53 +261,58 @@ if (typeof exports !== 'undefined') {
         }
 
         function controller(controllerName, controllerFunction) {
-            args.expect(arguments, ['string', 'function'])
-
-            _app.modules[_app.activeModule]['controllers'][controllerName] = controllerFunction.apply(this, getDependencies(controllerFunction))
-
+            _register('controllers', controllerName, controllerFunction)
             return this
         }
 
-        function service() {
+        function service(serviceName, serviceFunction) {
+            _register('services', serviceName, serviceFunction)
+            return this
         }
 
-        function utility() {
+        function utility(utilityName, utilityFunction) {
+            _register('utilities', utilityName, utilityFunction)
+            return this
         }
 
-        function model() {
+        function model(modelName, modelFunction) {
+            _register('models', modelName, modelFunction)
+            return this
+        }
+
+        function _register(layerName, name, fn) {
+            args.expect(arguments, ['string', 'string', 'function'])
+
+            var module = _app.modules[_app.activeModule],
+                layer = module[layerName]
+
+            // check if layer fn already exists, throw error
+            //if (obj.keyExists(layer[name], module[layer]))
+
+            return layer[name] = fn.apply(this, _getDependencies(fn))
         }
 
         /**
-         *
+         * Returns the dependencies if found. if not, an exception will be thrown.
          * @param {Function}
          * @returns {Array}
          */
-        function getDependencies(fn) {
+        function _getDependencies(fn) {
             args.expect(arguments, ['function'])
 
-            var dependencies = getFunctionDependecyNames(fn),
-                module = _app.modules[_app.activeModule]
+            var dependencies = _getFunctionDependecyNames(fn),
+                module = _app.modules[_app.activeModule],
+                layers = _app.defaultModuleLayers
 
             for (var i = 0; i < dependencies.length; i++) {
-                for (var j = 0; j < _app.defaultModuleLayers; j++) {
-                    console.log(_app.defaultModuleLayers[j])
-                    /*if (obj.keyExists(dependencies[i], module[_app.defaultModuleLayers[j]])) {
-                        dependencies[i] = module[_app.defaultModuleLayers[j]]
-                    } else {
-                        throw new AventadorException('dependency - ' + dependencies[i] + ' doesn\'t exists.')
-                    }*/
-                }
-                /*if (obj.keyExists(dependencies[i], module.controllers)) {
-                    dependencies[i] = module.controllers[dependencies[i]]
-                } else if (obj.keyExists(dependencies[i], module.services)) {
-                    dependencies[i] = module.services[dependencies[i]]
-                } else if (obj.keyExists(dependencies[i], module.utilities)) {
-                    dependencies[i] = module.utilities[dependencies[i]]
-                } else if (obj.keyExists(dependencies[i], module.models)) {
-                    dependencies[i] = module.models[dependencies[i]]
-                } else {
+                for (var j = 0; j < layers.length; j++) {
+                    if (obj.keyExists(dependencies[i], module[layers[j]])) {
+                        dependencies[i] = module[layers[j]][dependencies[i]]
+                        break
+                    }
+
                     throw new AventadorException('dependency - ' + dependencies[i] + ' doesn\'t exists.')
-                }*/
+                }
             }
 
             return dependencies
@@ -309,22 +323,25 @@ if (typeof exports !== 'undefined') {
          * Thanks for this blog (http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript),
          * I've copied Angular's dependecy injection regular expression pattern (evil laugh), with the addition
          * of .filter(Boolean) to remove empty strings.
-         *
          * @param {Function}
          * @returns {Array}
          */
-        function getFunctionDependecyNames(fn) {
+        function _getFunctionDependecyNames(fn) {
             args.expect(arguments, ['function'])
             return fn.toString().match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1].replace(/ /g, '').split(',').filter(Boolean)
         }
 
+        /**
+         * Create default layers for a module if layer not specified.
+         * @returns {void}
+         */
+        function _createLayers() {
+            var module = _app.modules[_app.activeModule],
+                layers = _app.defaultModuleLayers
 
-        function _initModule() {
-            var module = _app.modules[_app.activeModule]
-
-            for (var i = 0; i < _app.defaultModuleLayers.length; i++) {
-                if (!obj.keyExists(_app.defaultModuleLayers[i], module)) {
-                    module[_app.defaultModuleLayers[i]] = {}
+            for (var i = 0; i < layers.length; i++) {
+                if (!obj.keyExists(layers[i], module)) {
+                    module[layers[i]] = {}
                 }
             }
         }
