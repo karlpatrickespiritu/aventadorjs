@@ -44,4 +44,4 @@ gulp.task('watch', function () {
     })
 })
 
-gulp.task('default', ['clean', 'scripts', 'watch'])
+gulp.task('default', ['clean', 'scripts'])

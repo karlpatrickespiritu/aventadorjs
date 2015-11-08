@@ -6,7 +6,7 @@
 		.controller('UsersController', function () {
 
 			function getById() {
-				return 'call a service user here..'
+				return 'UsersController.getById()'
 			}
 
 			return {
@@ -15,13 +15,15 @@
 		})
 
         .service('UsersService', function (UsersController) {
-            return {}
+            return {
+            	service: function () { return 'UsersService.service()' }
+            }
         })
 
 		.controller('ProductsController', function(UsersController) {
 
-			function getByProductId () {
-				return 'call a product service here..'
+			function getByProductId() {
+				return 'ProductsController.getByProductId()'
 			}
 
 			return {
@@ -29,13 +31,16 @@
 			}
 		})
 
-        .controller('CartsController', function(ProductsController, UsersController) {
+        .controller('CartsController', function(ProductsController, UsersController, UsersService) {
 
+        	/*console.log('\n\n')
             console.log(UsersController.getById())
             console.log(ProductsController.getByProductId())
+            console.log(UsersService.service())
+            console.log('\n\n')*/
 
             function getByCartId () {
-                return 'call a service here..'
+                return 'CartsController.getByCartId()'
             }
 
             return {

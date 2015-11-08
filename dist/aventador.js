@@ -261,35 +261,38 @@ if (typeof exports !== 'undefined') {
         }
 
         function controller(controllerName, controllerFunction) {
+            args.expect(arguments, ['string', 'function'])
             _register('controllers', controllerName, controllerFunction)
             return this
         }
 
         function service(serviceName, serviceFunction) {
+            args.expect(arguments, ['string', 'function'])
             _register('services', serviceName, serviceFunction)
             return this
         }
 
         function utility(utilityName, utilityFunction) {
+            args.expect(arguments, ['string', 'function'])
             _register('utilities', utilityName, utilityFunction)
             return this
         }
 
         function model(modelName, modelFunction) {
+            args.expect(arguments, ['string', 'function'])
             _register('models', modelName, modelFunction)
             return this
         }
 
-        function _register(layerName, name, fn) {
-            args.expect(arguments, ['string', 'string', 'function'])
-
+        function _register(layerName, fnName, fn) {
             var module = _app.modules[_app.activeModule],
                 layer = module[layerName]
 
-            // check if layer fn already exists, throw error
-            //if (obj.keyExists(layer[name], module[layer]))
+            if (obj.keyExists(fnName, module[layerName])) {
+                throw new AventadorException('An existing `' + fnName + '` is already defined in ' + layerName + '.')
+            }
 
-            return layer[name] = fn.apply(this, _getDependencies(fn))
+            return layer[fnName] = fn.apply(this, _getDependencies(fn))
         }
 
         /**
@@ -298,20 +301,32 @@ if (typeof exports !== 'undefined') {
          * @returns {Array}
          */
         function _getDependencies(fn) {
-            args.expect(arguments, ['function'])
-
-            var dependencies = _getFunctionDependecyNames(fn),
+            var dependencyNames = _getFunctionDependecyNames(fn),
                 module = _app.modules[_app.activeModule],
-                layers = _app.defaultModuleLayers
+                layers = _app.defaultModuleLayers,
+                dependencies = []
 
-            for (var i = 0; i < dependencies.length; i++) {
+            for (var i = 0; i < dependencyNames.length; i++) {
+
+                // TODO: cache dependecies so we would no longer 
+                // go through this block of code if dependency is already in cache
+
                 for (var j = 0; j < layers.length; j++) {
-                    if (obj.keyExists(dependencies[i], module[layers[j]])) {
-                        dependencies[i] = module[layers[j]][dependencies[i]]
+                    var dependencyName = dependencyNames[i],
+                        layer = layers[j],
+                        isLastItem = (j === (layers.length -1)),
+                        dependency = module[layer][dependencyName] || false
+
+                    // console.log(dependencyName, layer) --> used for checking runtime
+
+                    if (dependency !== false) {    
+                        dependencies.push(dependency)
                         break
                     }
 
-                    throw new AventadorException('dependency - ' + dependencies[i] + ' doesn\'t exists.')
+                    if (isLastItem) {
+                        throw new AventadorException('dependency `' + dependencyName + '` doesn\'t exists.')
+                    }
                 }
             }
 
@@ -321,13 +336,12 @@ if (typeof exports !== 'undefined') {
         /**
          * This function returns the expected parameter names of a function. Hence, dependency injection(DI).
          * Thanks for this blog (http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript),
-         * I've copied Angular's dependecy injection regular expression pattern (evil laugh), with the addition
+         * I've copied Angular's dependency injection regular expression pattern (evil laugh), with the addition
          * of .filter(Boolean) to remove empty strings.
          * @param {Function}
          * @returns {Array}
          */
         function _getFunctionDependecyNames(fn) {
-            args.expect(arguments, ['function'])
             return fn.toString().match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m)[1].replace(/ /g, '').split(',').filter(Boolean)
         }
 
