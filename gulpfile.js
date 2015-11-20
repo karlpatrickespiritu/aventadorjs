@@ -1,5 +1,3 @@
-'use strict';
-
 var gulp = require('gulp'),
     plumber = require('gulp-plumber'),
     concat = require('gulp-concat'),
@@ -40,8 +38,8 @@ gulp.task('scripts', function() {
 
 gulp.task('watch', function () {
     gulp.watch(app.src, function () {
-        gulp.start('default')
+        gulp.start('scripts')
     })
 })
 
-gulp.task('default', ['clean', 'scripts'])
+gulp.task('default', ['clean', 'scripts', 'watch'])

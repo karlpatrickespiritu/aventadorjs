@@ -1,52 +1,30 @@
 (function () {
 
-	var myApp = aventador.module('myApp');
+	var myApp = aventador.module('myApp')
 
-	myApp
-		.controller('UsersController', function () {
-
-			function getById() {
-				return 'UsersController.getById()'
-			}
-
-			return {
-				getById: getById
-			}
-		})
-
-        .service('UsersService', function (UsersController) {
+    myApp
+        .handler('UsersHandler', function () {
             return {
-            	service: function () { return 'UsersService.service()' }
+                someFn: function () {},
+                someArray: []
             }
         })
-
-		.controller('ProductsController', function(UsersController) {
-
-			function getByProductId() {
-				return 'ProductsController.getByProductId()'
-			}
-
-			return {
-				getByProductId: getByProductId
-			}
-		})
-
-        .controller('CartsController', function(ProductsController, UsersController, UsersService) {
-
-        	/*console.log('\n\n')
-            console.log(UsersController.getById())
-            console.log(ProductsController.getByProductId())
-            console.log(UsersService.service())
-            console.log('\n\n')*/
-
-            function getByCartId () {
-                return 'CartsController.getByCartId()'
-            }
-
+        .service('UsersService', function (UsersHandler) {
+            // console.log([UsersHandler])
             return {
-                getByCartId: getByCartId
+                service: undefined
             }
         })
+        .factory('UsersFactory', function (UsersService, UsersHandler) {
+            // console.log([UsersService, UsersHandler])
+            return {
+                factory: undefined
+            }
+        })
+        .utility('UsersUtility', function (UsersHandler, UsersService, UsersFactory) {
+            return false;
+        })
 
-    console.log(myApp._app.modules);
+    console.log(myApp)
+
 })()

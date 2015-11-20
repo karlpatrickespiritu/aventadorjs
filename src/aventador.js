@@ -5,7 +5,6 @@
  * 1. enable the user to have a name-spaced project
  * 2. offer user default modules to work for (handlers, services, utilities, etc..)
  * 3. enable the user to create custom modules.
- * 4. offer basic helpers.
  * 3. enable module dependency injection
  * 4. dependency injection for other libraries. i.e. jquery, _loadash, etc..
  * */
@@ -65,7 +64,8 @@
             // the indicator what module is currently used 
             activeModule: undefined,
             modules: {},
-            defaultModuleLayers: ['controllers', 'services', 'utilities', 'models']
+            defaultModuleLayers: ['handlers', 'services', 'factories', 'utilities', 'models', 'controllers'],
+            dependenciesCache: {}
         }
 
         // localize variables (Single-Variable Responsibility)
@@ -108,10 +108,24 @@
             return {
                 _app: _app,
                 controller: controller,
+                handler: handler,
                 service: service,
                 utility: utility,
-                model: model
+                model: model,
+                factory: factory
             }
+        }
+
+        function handler(handlerName, handlerFunction) {
+            args.expect(arguments, ['string', 'function'])
+            _register('handlers', handlerName, handlerFunction)
+            return this
+        }
+
+        function factory(factoryName, factoryFunction) {
+            args.expect(arguments, ['string', 'function'])
+            _register('factories', factoryName, factoryFunction)
+            return this
         }
 
         function controller(controllerName, controllerFunction) {
@@ -149,6 +163,10 @@
             return layer[fnName] = fn.apply(this, _getDependencies(fn))
         }
 
+        function _isDependencyIncache(dependencyName) {
+            return obj.keyExists(dependencyName, _app.dependenciesCache)
+        }
+
         /**
          * Returns the dependencies if found. if not, an exception will be thrown.
          * @param {Function}
@@ -158,23 +176,28 @@
             var dependencyNames = _getFunctionDependecyNames(fn),
                 module = _app.modules[_app.activeModule],
                 layers = _app.defaultModuleLayers,
+                cache = _app.dependenciesCache,
                 dependencies = []
 
             for (var i = 0; i < dependencyNames.length; i++) {
+                var dependencyName = dependencyNames[i]
 
-                // TODO: cache dependecies so we would no longer 
-                // go through this block of code if dependency is already in cache
+                if (_isDependencyIncache(dependencyName)) {
+                    dependencies.push(cache[dependencyName])
+                    break
+                }
 
                 for (var j = 0; j < layers.length; j++) {
-                    var dependencyName = dependencyNames[i],
-                        layer = layers[j],
+                    var layer = layers[j],
                         isLastItem = (j === (layers.length -1)),
                         dependency = module[layer][dependencyName] || false
 
-                    // console.log(dependencyName, layer) --> used for checking runtime
+                    // used for checking runtime
+                    // console.log(dependencyName, layer)
 
-                    if (dependency !== false) {    
+                    if (dependency !== false) {
                         dependencies.push(dependency)
+                        cache[dependencyName] = dependency
                         break
                     }
 
