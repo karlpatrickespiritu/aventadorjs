@@ -144,17 +144,6 @@
 if (typeof exports !== 'undefined') {
     exports.args = window.args || {};
 }
-/*
- * Dear Author,
- *
- * The Project Goal:
- * 1. enable the user to have a name-spaced project
- * 2. offer user default modules to work for (handlers, services, utilities, etc..)
- * 3. enable the user to create custom modules.
- * 3. enable module dependency injection
- * 4. dependency injection for other libraries. i.e. jquery, _loadash, etc..
- * */
-
 (function (window, undefined) {
     "use strict"
 
@@ -329,7 +318,10 @@ if (typeof exports !== 'undefined') {
                 var dependencyName = dependencyNames[i]
 
                 if (_isDependencyIncache(dependencyName)) {
-                    dependencies.push(cache[dependencyName])
+                    var stringCache = cache[dependencyName].split('.'),
+                        cachedDependency = module[stringCache[1]][stringCache[2]]
+
+                    dependencies.push(cachedDependency)
                     break
                 }
 
@@ -343,7 +335,10 @@ if (typeof exports !== 'undefined') {
 
                     if (dependency !== false) {
                         dependencies.push(dependency)
-                        cache[dependencyName] = dependency
+
+                        // assign string location of the dependency in cache.
+                        cache[dependencyName] = _app.activeModule + "." + layer + "." + dependencyName
+
                         break
                     }
 

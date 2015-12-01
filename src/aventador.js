@@ -172,7 +172,10 @@
                 var dependencyName = dependencyNames[i]
 
                 if (_isDependencyIncache(dependencyName)) {
-                    dependencies.push(cache[dependencyName])
+                    var stringCache = cache[dependencyName].split('.'),
+                        cachedDependency = module[stringCache[1]][stringCache[2]]
+
+                    dependencies.push(cachedDependency)
                     break
                 }
 
@@ -186,7 +189,10 @@
 
                     if (dependency !== false) {
                         dependencies.push(dependency)
-                        cache[dependencyName] = dependency
+
+                        // assign string location of the dependency in cache.
+                        cache[dependencyName] = _app.activeModule + "." + layer + "." + dependencyName
+
                         break
                     }
 
