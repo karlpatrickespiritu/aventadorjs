@@ -3,22 +3,34 @@
 	var myApp = aventador.module('myApp')
 
     myApp
-        .handler('UsersHandler', function () {
+        .service('UsersService', function () {
             return {
-                someFn: function () {},
-                someArray: []
+                getUsers: getUsers
+            }
+
+            function getUsers() {
+                return [{
+                    firstName: 'John',
+                    lastName: 'Doe'
+                }]
             }
         })
-        .service('UsersService', function (UsersHandler) {
-            // console.log([UsersHandler])
+        .handler('UsersHandler', function (UsersService) {
+
             return {
-                service: undefined
+                someFunction: someFunction
+            }
+
+            function someFunction() {
+                return true
             }
         })
         .factory('UsersFactory', function (UsersService, UsersHandler) {
-            // console.log([UsersService, UsersHandler])
+
+            console.log([UsersService, UsersHandler])
+
             return {
-                factory: undefined
+                factory: false
             }
         })
         .utility('UsersUtility', function (UsersHandler, UsersService, UsersFactory) {

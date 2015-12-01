@@ -1,6 +1,6 @@
 var chai = require('chai'),
     expect = chai.expect,
-    aventador = require('../../src/aventador.js').aventador,
+    aventador = require('../../src/aventador.js'),
     string = aventador.helpers.string;
 
 describe('string', function () {

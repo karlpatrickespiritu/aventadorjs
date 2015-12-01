@@ -1,4 +1,4 @@
-(function (window, undefined) {
+;(function (window, undefined) {
     "use strict"
 
     /**
@@ -95,7 +95,6 @@
             _createLayers()
 
             return {
-                _app: _app,
                 controller: controller,
                 handler: handler,
                 service: service,
@@ -237,6 +236,7 @@
             helpers: helpers
         }
 
+
     })(helpers, window.args)
 
     // expose to global object
@@ -244,6 +244,6 @@
 
 })(window = (typeof window !== 'undefined') ? window : {}, undefined)
 
-if (typeof exports !== 'undefined') {
-    exports.aventador = window.aventador || {}
+if (typeof module !== 'undefined') {
+    module.exports = window.aventador || {}
 }
