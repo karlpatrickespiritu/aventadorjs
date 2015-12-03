@@ -321,7 +321,7 @@ if (typeof exports !== 'undefined') {
                         cachedDependency = module[stringCache[1]][stringCache[2]]
 
                     dependencies.push(cachedDependency)
-                    break
+                    continue
                 }
 
                 for (var j = 0; j < layers.length; j++) {

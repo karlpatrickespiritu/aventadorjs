@@ -17,6 +17,8 @@
         })
         .handler('UsersHandler', function (UsersService) {
 
+            console.log([UsersService])
+
             return {
                 someFunction: someFunction
             }
@@ -34,9 +36,9 @@
             }
         })
         .utility('UsersUtility', function (UsersHandler, UsersService, UsersFactory) {
+
+            console.log([UsersHandler, UsersService, UsersFactory])
+
             return false;
         })
-
-    console.log(myApp)
-
 })()
