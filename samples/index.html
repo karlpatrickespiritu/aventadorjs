@@ -2,14 +2,88 @@
 <head>
     <meta charset="UTF-8">
     <title>aventadorjs sample</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
+    <div class="container">
+        <div class="row contents">
+            <div class="col-md-6">
+                <form id="registration-form" method="POST">
+                    <h2>Add User</h2>
+                    <br/>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="firstname" class="form-control" placeholder="first name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="lastname" class="form-control" placeholder="last name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="email" name="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="passwordconfirm" class="form-control" placeholder="Confirm Password">
+                    </div>
+                    <button type="submit" class="btn btn-default btn-block">Submit</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h2>Users</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Username</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<footer>
-	<!-- script src="https://code.jquery.com/jquery-2.1.4.min.js"></script-->
-    <script src="../dist/aventador.js"></script>
-    <script src="sample.js"></script>
-</footer>
+    <footer>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="../dist/aventador.min.js"></script>
 
+        <!-- App -->
+        <script src="js/app.js"></script>
+        <script src="js/Utilities/StringUtility.js"></script>
+        <script src="js/Factories/UsersFactory.js"></script>
+        <script src="js/Utilities/UsersUtility.js"></script>
+        <script src="js/Services/UsersService.js"></script>
+        <script src="js/Handlers/UsersHandler.js"></script>
+    </footer>
 </body>
 </html>

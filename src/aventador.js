@@ -100,7 +100,12 @@
                 service: service,
                 utility: utility,
                 model: model,
-                factory: factory
+                factory: factory,
+                getHandler: getHandler,
+                getService: getService,
+                getModel: getModel,
+                getFactory: getFactory,
+                getUtility: getUtility
             }
         }
 
@@ -138,6 +143,47 @@
             args.expect(arguments, ['string', 'function'])
             _register('models', modelName, modelFunction)
             return this
+        }
+
+        function getHandler(handlerName) {
+            args.expect(arguments, ['string'])
+            return _getLayer(handlerName, 'handlers')
+        }
+
+        function getService(serviceName) {
+            args.expect(arguments, ['string'])
+            return _getLayer(serviceName, 'services')
+        }
+
+        function getFactory(factoryName) {
+            args.expect(arguments, ['string'])
+            return _getLayer(factoryName, 'factories')
+        }
+
+        function getUtility(utilityName) {
+            args.expect(arguments, ['string'])
+            return _getLayer(utilityName, 'utilities')
+        }
+
+        function getModel(modelName) {
+            args.expect(arguments, ['string'])
+            return _getLayer(modelName, 'models')
+        }
+
+        function getController(controllerName) {
+            args.expect(arguments, ['string'])
+            return _getLayer(controllerName, 'controllers')
+        }
+
+        function _getLayer(name, layerName) {
+            var module = _app.modules[_app.activeModule],
+                handlers = module[layerName]
+
+            if (obj.keyExists(name, module[layerName])) {
+                return handlers[name]
+            }
+
+            throw new AventadorException('`' + name + '` does not exists')
         }
 
         function _register(layerName, fnName, fn) {
