@@ -1,5 +1,6 @@
 (function () {
-    myApp
+    aventador
+        .module('myApp')
         .handler('UsersHandler', function (UsersFactory, UsersService, UsersUtility) {
             return {
                 getUsers: getUsers,

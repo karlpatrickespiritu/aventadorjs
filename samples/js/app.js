@@ -1,9 +1,13 @@
-// create app
-var myApp = aventador.module('myApp')
+(function () {
 
-;(function () {
-    var $registrationForm = $('form#registration-form')
+    var myApp = aventador.module('myApp'), // create app
+        $page = $('#users-page'),
+        $registrationForm = $page.find('form#registration-form'),
+        $usersTable = $page.find('table.users-table tbody'),
+        $errors = $page.find('ul.errors')
 
+
+    /*===== EVENT HANDLERS =====*/
     $registrationForm.on('submit', function (e) {
         e.preventDefault()
 
@@ -14,13 +18,37 @@ var myApp = aventador.module('myApp')
 
         UsersHandler.register(data, function(response) {
             if (response.success) {
-                console.log(UsersHandler.getUsers())
+                $.publish('users/add', [response.data.user])
+            } else if (response.errors.length) {
+                $.publish('users/add/errors', [response.errors])
             }
-            console.log(response.data.user.getId())
-            console.log(response.data.user.getFirstName())
-            console.log(response.data.user.getLastName())
-            console.log(response.data.user.getEmail())
-            console.log(response.data.user.getPassword())
         })
     })
+
+
+    /*===== PUB/SUB =====*/
+
+    function addUser(_, user) {
+        // Skip the first argument (event object) but log the name and other args.
+        $usersTable.append(
+                '<tr>' + 
+                    '<td>' + user.getId() + '</td>' +
+                    '<td>' + user.getFirstName() + '</td>' +
+                    '<td>' + user.getLastName() + '</td>' +
+                    '<td>' + user.getEmail() + '</td>' +
+                '</tr>'
+            )
+    }
+
+    function addUserErrors(_, errors) {
+        $errors.html('')
+
+        errors.forEach(function(value, index) {
+            $errors.append('<li>' + value + '</li>')
+        })
+    }
+
+    $.subscribe('users/add', addUser);
+    $.subscribe('users/add/errors', addUserErrors);
+
 })()

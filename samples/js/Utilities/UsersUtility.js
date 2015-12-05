@@ -1,5 +1,6 @@
 (function () {
-    myApp
+    aventador
+        .module('myApp')
         .utility('UsersUtility', function (StringUtility) {
             return {
                 validateUser: validateUser

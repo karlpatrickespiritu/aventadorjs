@@ -2,17 +2,29 @@
 <head>
     <meta charset="UTF-8">
     <title>aventadorjs sample</title>
+    
+    <!-- CDN -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/> -->
+    
+    <!-- NOT CDN -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
     <div class="container">
-        <div class="row contents">
+        <div class="row contents" id="users-page">
             <div class="col-md-6">
                 <form id="registration-form" method="POST">
                     <h2>Add User</h2>
                     <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                <ul class="errors"></ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label>First Name</label>
                         <input type="text" name="firstname" class="form-control" placeholder="first name">
@@ -38,44 +50,32 @@
             </div>
             <div class="col-md-6">
                 <h2>Users</h2>
-                <table class="table">
+                <table class="table users-table">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Username</th>
+                            <th>Email</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
     </div>
 
     <footer>
-        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <!-- CDN -->
+        <!-- <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+        
+        <!-- NOT CDN -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
         <script src="../dist/aventador.min.js"></script>
+        <script src="js/tiny-pubsub.js"></script>
 
         <!-- App -->
         <script src="js/app.js"></script>

@@ -1,5 +1,6 @@
 (function () {
-    myApp
+    aventador
+        .module('myApp')
         .service('UsersService', function () {
             // NOTE: data should be saved in a database. this is just temporary
             var users = {}

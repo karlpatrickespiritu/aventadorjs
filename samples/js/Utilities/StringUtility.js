@@ -1,5 +1,6 @@
 (function () {
-    myApp
+    aventador
+        .module('myApp')
         .utility('StringUtility', function () {
             return {
                 isString: isString,

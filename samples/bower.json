@@ -1,0 +1,22 @@
+{
+  "name": "samples",
+  "homepage": "https://github.com/karlpatrickespiritu/aventadorjs",
+  "authors": [
+    "karlpatrickespiritu <wiwa.espiritu@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.6"
+  }
+}

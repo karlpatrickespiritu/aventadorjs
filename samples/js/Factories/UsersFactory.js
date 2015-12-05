@@ -1,5 +1,6 @@
 (function () {
-    myApp
+    aventador
+        .module('myApp')
         .factory('UsersFactory', function () {
             return {
                 create: create
