@@ -4,10 +4,11 @@
         $page = $('#users-page'),
         $registrationForm = $page.find('form#registration-form'),
         $usersTable = $page.find('table.users-table tbody'),
-        $errors = $page.find('ul.errors')
-
+        $errors = $page.find('.errors')
+        $errorList = $errors.find('ul.error-list')
 
     /*===== EVENT HANDLERS =====*/
+
     $registrationForm.on('submit', function (e) {
         e.preventDefault()
 
@@ -30,6 +31,9 @@
 
     function addUser(_, user) {
         // Skip the first argument (event object) but log the name and other args.
+        $errors.hide()
+        $errorList.html('')
+
         $usersTable.append(
                 '<tr>' + 
                     '<td>' + user.getId() + '</td>' +
@@ -40,11 +44,12 @@
             )
     }
 
-    function addUserErrors(_, errors) {
-        $errors.html('')
+    function addUserErrors(_, errors) {        
+        $errors.show()
+        $errorList.html('')
 
         errors.forEach(function(value, index) {
-            $errors.append('<li>' + value + '</li>')
+            $errorList.append('<li>' + value + '</li>')
         })
     }
 
