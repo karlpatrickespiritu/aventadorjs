@@ -1,16 +1,37 @@
 (function () {
     myApp
-        .handler('UsersHandler', function (UsersService) {
+        .handler('UsersHandler', function (UsersFactory, UsersService, UsersUtility) {
             return {
+                getUsers: getUsers,
                 register: register
             }
 
             function register(data, callback) {
-                var callback = callback || false
+                var callback = callback || false,
+                    errors = UsersUtility.validateUser(data),
+                    response = {
+                        success: false,
+                        errors: errors,
+                        data: {}
+                    }
 
-                if (callback) {
-                    callback(data)
+                if (!response.errors.length) {
+                    var user = UsersFactory.create(
+                        data.firstname,
+                        data.lastname,
+                        data.email,
+                        data.password
+                    )
+
+                    response.data.user = UsersService.register(user)
+                    response.success = Boolean(response.data.user)
                 }
+
+                if (callback) callback(response)
+            }
+
+            function getUsers() {
+                return UsersService.getUsers()
             }
         })
 })()

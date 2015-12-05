@@ -8,11 +8,11 @@
             }
 
             function isString(data) {
-                return data.constructor === String
+                return typeof data === 'string'
             }
 
             function isEmpty(data) {
-                return isString(data) && data.length
+                return isString(data) && data.length < 1
             }
 
             function queryStringToJson(queryString) {

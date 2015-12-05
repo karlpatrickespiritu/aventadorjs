@@ -13,7 +13,14 @@ var myApp = aventador.module('myApp')
             data = StringUtility.queryStringToJson($this.serialize())
 
         UsersHandler.register(data, function(response) {
-            console.log(response)
+            if (response.success) {
+                console.log(UsersHandler.getUsers())
+            }
+            console.log(response.data.user.getId())
+            console.log(response.data.user.getFirstName())
+            console.log(response.data.user.getLastName())
+            console.log(response.data.user.getEmail())
+            console.log(response.data.user.getPassword())
         })
     })
 })()

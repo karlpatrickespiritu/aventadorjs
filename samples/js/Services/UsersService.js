@@ -1,17 +1,20 @@
 (function () {
     myApp
         .service('UsersService', function () {
+            // NOTE: data should be saved in a database. this is just temporary
+            var users = {}
+
             return {
                 getUsers: getUsers,
-                registerUser: registerUser
+                register: register
             }
 
             function getUsers() {
-                return []
+                return users
             }
 
-            function registerUser(user) {
-                return user ? true: false;
+            function register(user) {
+                return users[user.getId()] = user
             }
         })
 })()
