@@ -18,8 +18,7 @@
                 'getFactory',
                 'getUtility',
                 'getModel'
-            ],
-            myApp = null
+            ]
 
         describe('aventador object', function () {
             it('should have appropriate methods returned', function () {
@@ -69,13 +68,12 @@
                             someServiceFn: someServiceFn
                         }
 
-                        expect(SomeFactory).to.be.an('object')
-                        expect(SomeUtility).to.be.an('object')
                         expect(SomeFactory).to.have.property('someFactoryFn').that.is.a('function')
                         expect(SomeUtility).to.have.property('someUtilityFn').that.is.a('function')
+                        expect(SomeFactory.someFactoryFn()).to.have.property('getName').that.is.a('string')
 
                         function someServiceFn() {
-                            return SomeUtility.someUtilityFn ? {}: false;
+                            return SomeUtility.someUtilityFn() ? {}: false;
                         }
                     })
                     .model('SomeModel', function(SomeService) {
@@ -84,22 +82,40 @@
                         }
 
                         expect(SomeService).to.have.property('someServiceFn').that.is.a('function')
-                        expect(function() {
-                            SomeService.someServiceFn()
-                        }).to.be.an('object')
-                        expect(function() {
-                            SomeService.someServiceFn()
-                        }).to.be.empty;
+                        expect(SomeService.someServiceFn()).to.be.an('object')
+                        expect(SomeService.someServiceFn()).to.be.empty;
 
                         function someModelFn() {
-                            
+                            function foo() {
+                                return ['bar']
+                            }
+                            return SomeService.someServiceFn() ? { foo: foo } : false 
                         }
                     })
-                    .handler('SomeHandler', function() {
+                    .handler('SomeHandler', function(SomeModel, SomeService) {
+                        return {
+                            someHandlerFn: someHandlerFn
+                        }
 
+                        expect(SomeModel).to.have.property('someModelFn').that.is.a('function')
+                        expect(SomeModel.someModelFn().foo()[0]).to.equal('bar')
+                        expect(SomeService.someServiceFn()).to.equal({})
+
+                        function someHandlerFn() {
+                            return SomeService.someServiceFn() === {}
+                        }
                     })
-                    .controller('SomeController', function() {
+                    .controller('SomeController', function(SomeHandler) {
+                        return {
+                            someHandlerFn: someHandlerFn
+                        }  
 
+                        expect(SomeHandler).to.have.property('someHandlerFn').that.is.a('function')
+                        expect(SomeHandler.someHandlerFn()).to.be.not.ok
+
+                        function someHandlerFn() {
+                            return true;
+                        }
                     })
             })
 
