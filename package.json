@@ -1,10 +1,10 @@
 {
   "name": "aventadorjs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "a javascript module organizer",
   "main": "",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
