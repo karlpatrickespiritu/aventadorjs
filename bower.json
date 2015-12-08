@@ -1,0 +1,26 @@
+{
+  "name": "aventadorjs",
+  "version": "0.0.1",
+  "homepage": "https://github.com/karlpatrickespiritu/aventadorjs",
+  "authors": [
+    "karlpatrickespiritu <karl.espiritu@corp.mobile.co>"
+  ],
+  "description": "a javascript module organizer.",
+  "keywords": [
+    "js",
+    "javascript",
+    "modules",
+    "module",
+    "organizer",
+    "module",
+    "organizer"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
