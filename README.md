@@ -29,4 +29,4 @@ Maintainers
  
 License
 --------
-(C) [Karl Patrick Espiritu] 2015, released under the MIT license
+(C) [Karl Patrick Espiritu](https://github.com/karlpatrickespiritu/) 2015, released under the MIT license
