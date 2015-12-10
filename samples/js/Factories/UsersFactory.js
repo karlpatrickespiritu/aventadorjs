@@ -15,33 +15,27 @@
                     password: user.password || ''
                 }
 
-                function getId() {
+                this.getId = function() {
                     return user.id
                 }
 
-                function getFirstName() {
+                this.getFirstName = function() {
                     return user.firstName
                 }
 
-                function getLastName() {
+                this.getLastName = function() {
                     return user.lastName
                 }
 
-                function getEmail() {
+                this.getEmail = function() {
                     return user.email
                 }
 
-                function getPassword() {
+                this.getPassword = function() {
                     return user.password
                 }
 
-                return {
-                    getId: getId,
-                    getFirstName: getFirstName,
-                    getLastName: getLastName,
-                    getEmail: getEmail,
-                    getPassword: getPassword
-                }
+                return this
             }
 
             function create(firstName, lastName, email, password) {
