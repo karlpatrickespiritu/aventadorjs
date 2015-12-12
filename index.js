@@ -1,1 +1,1 @@
-exports.aventador = require('./dist/aventador.js')
+module.exports = require('./dist/aventador.js')
