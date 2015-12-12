@@ -31,7 +31,66 @@ Quick Usage
 --------
 
 ```JavaScript
+var aventador = require('./bower_components/aventadorjs/dist/aventador.js');
 
+myApp = aventador.module('myApp')
+
+myApp
+    .utility('StringUtility', function() {
+        return {
+            isString: isString
+        }
+
+        function isString(str) {
+            return typeof str === 'string';
+        }
+    })
+    .factory('UsersFactory', function(StringUtility) {
+        return {
+            create: create
+        }
+
+        function create(user) {
+            // some user creation here..
+            if (StringUtility.isString(user.name)) {
+                return true;
+            }
+
+            return false;
+        }
+    })
+    .service('UsersService', function(UsersFactory) {
+        return {
+            isLoggedIn: isLoggedIn,
+            register: register
+        }
+
+        function isLoggedIn() {
+            // some ajax request here..
+            return false;
+        }
+
+        function register(user) {
+            var user = UsersFactory.create(user);
+            // some ajax request here..
+            return user;
+        }
+    })
+    .handler('UsersHandler', function (UsersService) {
+        return {
+            register: register
+        }
+
+        function register(user) {
+            if (!UsersService.isLoggedIn()) {
+                return UsersService.register(user)
+            }
+
+            return false;
+        }
+    })
+
+console.log(myApp.getHandler('UsersHandler').register({ name: 'john'}));
 ```
 
 Maintainers
