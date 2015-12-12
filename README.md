@@ -4,6 +4,10 @@
 
 A JavaScript application modules organizer. [http://http://karlpatrickespiritu.github.io/aventadorjs/](http://karlpatrickespiritu.github.io/aventadorjs/)
 
+Version
+--------
+[0.0.2](https://github.com/karlpatrickespiritu/aventadorjs/releases)
+
 Documentation
 --------
 
@@ -11,9 +15,12 @@ For a detailed information about aventadorjs, please visit our [docs site](http:
 
 Also, you might want to see aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
-Version
+Quick Usage
 --------
-[0.0.2](https://github.com/karlpatrickespiritu/aventadorjs/releases)
+
+```JavaScript
+
+```
 
 Installation
 --------
