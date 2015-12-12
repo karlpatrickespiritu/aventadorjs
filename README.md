@@ -55,7 +55,7 @@ app.js
             function create(user) {
                 // some user creation here..
                 if (StringUtility.isString(user.name)) {
-                    return true;
+                    return { id: 123, name: user.name};
                 }
 
                 return false;
@@ -83,16 +83,44 @@ app.js
                 register: register
             }
 
-            function register(user) {
+            function register(user, callback) {
                 if (!UsersService.isLoggedIn()) {
-                    return UsersService.register(user)
+                    var user = UsersService.register(user);
+
+                    if (callback) { callback(user) }
+
+                    return user;
                 }
 
                 return false;
             }
         })
 
-})(window, aventador)
+})(window, aventador);
+```
+
+somewhere in your jQuery event handlers.
+```JavaScript
+(function(window, jQuery, aventador) {
+    
+    // document ready
+    $(function() {
+        var myApp = aventador.module('myApp'),
+            UsersHandler = myApp.getHandler('UsersHandler');
+    
+        $('form').on('submit', function(e) {
+            var $this = $(this),
+                data = $this.serialize();
+    
+            UsersHandler.register(data, function(user) {
+                console.log(user); // Object {id: 123, name: "john"}
+            })
+    
+            e.preventDefault();
+        })
+    })
+    
+})(window, jQuery, aventador);
 ```
 
 Maintainers
