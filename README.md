@@ -2,9 +2,7 @@
 
 [![Build Status](https://travis-ci.org/karlpatrickespiritu/aventadorjs.svg?branch=master)](https://travis-ci.org/karlpatrickespiritu/aventadorjs)
 
-A JavaScript application modules organizer.
-
-See **aventadorjs** in action on [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/samples/)!
+A JavaScript application modules organizer. [http://karlpatrickespiritu.github.io/aventadorjs/](http://karlpatrickespiritu.github.io/aventadorjs/)
 
 Version
 --------
@@ -20,6 +18,20 @@ $ npm install aventadorjs
 via [bower](bower.io)
 ```sh
 $ bower install args-checker-js
+```
+
+Documentation
+--------
+
+For a detailed information about aventadorjs, please visit our [docs site](http://karlpatrickespiritu.github.io/aventadorjs/).
+
+Also, you might want to see aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
+
+Quick Usage
+--------
+
+```JavaScript
+
 ```
 
 Maintainers
