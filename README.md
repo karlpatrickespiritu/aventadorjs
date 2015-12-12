@@ -31,8 +31,6 @@ Quick Usage
 --------
 
 ```JavaScript
-var aventador = require('./bower_components/aventadorjs/dist/aventador.js');
-
 myApp = aventador.module('myApp')
 
 myApp
