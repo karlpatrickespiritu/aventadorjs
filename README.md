@@ -108,7 +108,7 @@ app.js
 
 somewhere in your jQuery event handlers.
 ```JavaScript
-(function(window, jQuery, aventador) {
+(function(window, $, aventador) {
     "use strict";
     
     // document ready
