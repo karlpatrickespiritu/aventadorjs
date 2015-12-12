@@ -29,6 +29,8 @@ Also, you might want to see aventadorjs in action in [this sample app](http://ka
 
 Quick Usage
 --------
+**NOTE:** dummy data were used just to show an example.
+
 
 include aventador in your app.
 ```html
