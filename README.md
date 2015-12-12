@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/karlpatrickespiritu/aventadorjs.svg?branch=master)](https://travis-ci.org/karlpatrickespiritu/aventadorjs)
 
-A JavaScript application modules organizer. [http://http://karlpatrickespiritu.github.io/aventadorjs/](http://karlpatrickespiritu.github.io/aventadorjs/)
+A JavaScript application modules organizer. [http://karlpatrickespiritu.github.io/aventadorjs/](http://karlpatrickespiritu.github.io/aventadorjs/)
 
 Version
 --------
