@@ -6,7 +6,7 @@ A JavaScript application modules organizer. [http://karlpatrickespiritu.github.i
 
 Version
 --------
-[0.0.2](https://github.com/karlpatrickespiritu/aventadorjs/releases)
+[0.0.5](https://github.com/karlpatrickespiritu/aventadorjs/releases)
 
 Installation
 --------
