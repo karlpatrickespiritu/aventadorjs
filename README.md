@@ -30,65 +30,69 @@ Also, you might want to see aventadorjs in action in [this sample app](http://ka
 Quick Usage
 --------
 
+app.js
 ```JavaScript
-myApp = aventador.module('myApp')
+(function(window, aventador) {
+    "use strict";
 
-myApp
-    .utility('StringUtility', function() {
-        return {
-            isString: isString
-        }
+    var myApp = aventador.module('myApp');
 
-        function isString(str) {
-            return typeof str === 'string';
-        }
-    })
-    .factory('UsersFactory', function(StringUtility) {
-        return {
-            create: create
-        }
-
-        function create(user) {
-            // some user creation here..
-            if (StringUtility.isString(user.name)) {
-                return true;
+    myApp
+        .utility('StringUtility', function() {
+            return {
+                isString: isString
             }
 
-            return false;
-        }
-    })
-    .service('UsersService', function(UsersFactory) {
-        return {
-            isLoggedIn: isLoggedIn,
-            register: register
-        }
-
-        function isLoggedIn() {
-            // some ajax request here..
-            return false;
-        }
-
-        function register(user) {
-            var user = UsersFactory.create(user);
-            // some ajax request here..
-            return user;
-        }
-    })
-    .handler('UsersHandler', function (UsersService) {
-        return {
-            register: register
-        }
-
-        function register(user) {
-            if (!UsersService.isLoggedIn()) {
-                return UsersService.register(user)
+            function isString(str) {
+                return typeof str === 'string';
+            }
+        })
+        .factory('UsersFactory', function(StringUtility) {
+            return {
+                create: create
             }
 
-            return false;
-        }
-    })
+            function create(user) {
+                // some user creation here..
+                if (StringUtility.isString(user.name)) {
+                    return true;
+                }
 
-console.log(myApp.getHandler('UsersHandler').register({ name: 'john'}));
+                return false;
+            }
+        })
+        .service('UsersService', function(UsersFactory) {
+            return {
+                isLoggedIn: isLoggedIn,
+                register: register
+            }
+
+            function isLoggedIn() {
+                // some ajax request here..
+                return false;
+            }
+
+            function register(user) {
+                var user = UsersFactory.create(user);
+                // some ajax request here..
+                return user;
+            }
+        })
+        .handler('UsersHandler', function (UsersService) {
+            return {
+                register: register
+            }
+
+            function register(user) {
+                if (!UsersService.isLoggedIn()) {
+                    return UsersService.register(user)
+                }
+
+                return false;
+            }
+        })
+
+})(window, aventador)
 ```
 
 Maintainers
