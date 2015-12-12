@@ -30,6 +30,11 @@ Also, you might want to see aventadorjs in action in [this sample app](http://ka
 Quick Usage
 --------
 
+include aventador in your app.
+```html
+<script src="aventadorjs/dist/aventador.min.js"></script>
+```
+
 app.js
 ```JavaScript
 (function(window, aventador) {
