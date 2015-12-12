@@ -8,6 +8,18 @@ Version
 --------
 [0.0.2](https://github.com/karlpatrickespiritu/aventadorjs/releases)
 
+Installation
+--------
+via [npm](https://www.npmjs.com/)
+```sh
+$ npm install aventadorjs
+```
+
+via [bower](bower.io)
+```sh
+$ bower install args-checker-js
+```
+
 Documentation
 --------
 
@@ -20,18 +32,6 @@ Quick Usage
 
 ```JavaScript
 
-```
-
-Installation
---------
-via [npm](https://www.npmjs.com/)
-```sh
-$ npm install aventadorjs
-```
-
-via [bower](bower.io)
-```sh
-$ bower install args-checker-js
 ```
 
 Maintainers
