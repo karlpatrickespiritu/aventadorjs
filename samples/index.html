@@ -103,196 +103,215 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="UsersHandler">
                             <pre class="brush: js;">
-                                (function () {
+                                (function (window, aventador) {
+
                                     aventador
                                         .module('myApp')
-                                        .handler('UsersHandler', function (UsersFactory, UsersService, UsersUtility) {
-                                            return {
-                                                getUsers: getUsers,
-                                                register: register
-                                            }
+                                        .handler('UsersHandler', UsersHandler)
 
-                                            function register(data, callback) {
-                                                var callback = callback || false,
-                                                    errors = UsersUtility.validateUser(data),
-                                                    response = {
-                                                        success: false,
-                                                        errors: errors,
-                                                        data: {}
-                                                    }
+                                    function UsersHandler(UsersFactory, UsersService, UsersUtility) {
+                                        return {
+                                            getUsers: getUsers,
+                                            register: register
+                                        }
 
-                                                if (!response.errors.length) {
-                                                    var user = UsersFactory.create(
-                                                        data.firstname,
-                                                        data.lastname,
-                                                        data.email,
-                                                        data.password
-                                                    )
-
-                                                    response.data.user = UsersService.register(user)
-                                                    response.success = Boolean(response.data.user)
+                                        function register(data, callback) {
+                                            var callback = callback || false,
+                                                errors = UsersUtility.validateUser(data),
+                                                response = {
+                                                    success: false,
+                                                    errors: errors,
+                                                    data: {}
                                                 }
 
-                                                if (callback) callback(response)
+                                            if (!response.errors.length) {
+                                                var user = UsersFactory.create(
+                                                    data.firstname,
+                                                    data.lastname,
+                                                    data.email,
+                                                    data.password
+                                                )
+
+                                                response.data.user = UsersService.register(user)
+                                                response.success = Boolean(response.data.user)
                                             }
 
-                                            function getUsers() {
-                                                return UsersService.getUsers()
-                                            }
-                                        })
-                                })()
+                                            if (callback) callback(response)
+                                        }
+
+                                        function getUsers() {
+                                            return UsersService.getUsers()
+                                        }
+                                    }
+
+                                })(window, aventador)
                             </pre>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="UsersService">
                             <pre class="brush: js;">
-                                (function () {
+                                (function (window, aventador) {
+
                                     aventador
                                         .module('myApp')
-                                        .service('UsersService', function () {
+                                        .service('UsersService', UsersService)
 
-                                            // NOTE: data should be saved in a database. this is just temporary
-                                            var users = {}
+                                    function UsersService() {
 
-                                            return {
-                                                getUsers: getUsers,
-                                                register: register
-                                            }
+                                        // NOTE: data should be saved in a database. this is just temporary
+                                        var users = {}
 
-                                            function getUsers() {
-                                                return users
-                                            }
+                                        return {
+                                            getUsers: getUsers,
+                                            register: register
+                                        }
 
-                                            function register(user) {
-                                                return users[user.getId()] = user
-                                            }
-                                        })
-                                })()
+                                        function getUsers() {
+                                            return users
+                                        }
+
+                                        function register(user) {
+                                            return users[user.getId()] = user
+                                        }
+                                    }
+
+                                })(window, aventador)
                             </pre>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="UsersFactory">
                             <pre class="brush: js;">
-                                (function () {
+                                (function (window, aventador) {
+
                                     aventador
                                         .module('myApp')
-                                        .factory('UsersFactory', function () {
-                                            return {
-                                                create: create
+                                        .factory('UsersFactory', UsersFactory)
+
+                                    function UsersFactory() {
+                                        return {
+                                            create: create
+                                        }
+
+                                        function user(user) {
+                                            var user = {
+                                                id: Math.floor((Math.random() * 1000) + 1) + '' + user.firstName + ''+ user.lastName,
+                                                firstName: user.firstName || '',
+                                                lastName: user.lastName || '',
+                                                email: user.email || '',
+                                                password: user.password || ''
                                             }
 
-                                            function user(user) {
-                                                var user = {
-                                                    id: Math.floor((Math.random() * 1000) + 1) + '' + user.firstName + ''+ user.lastName,
-                                                    firstName: user.firstName || '',
-                                                    lastName: user.lastName || '',
-                                                    email: user.email || '',
-                                                    password: user.password || ''
-                                                }
-
-                                                this.getId = function() {
-                                                    return user.id
-                                                }
-
-                                                this.getFirstName = function() {
-                                                    return user.firstName
-                                                }
-
-                                                this.getLastName = function() {
-                                                    return user.lastName
-                                                }
-
-                                                this.getEmail = function() {
-                                                    return user.email
-                                                }
-
-                                                this.getPassword = function() {
-                                                    return user.password
-                                                }
-
-                                                return this
+                                            this.getId = function() {
+                                                return user.id
                                             }
 
-                                            function create(firstName, lastName, email, password) {
-                                                return user({
-                                                    firstName: firstName,
-                                                    lastName: lastName,
-                                                    email: email,
-                                                    password: password
-                                                })
+                                            this.getFirstName = function() {
+                                                return user.firstName
                                             }
-                                        })
-                                })()
+
+                                            this.getLastName = function() {
+                                                return user.lastName
+                                            }
+
+                                            this.getEmail = function() {
+                                                return user.email
+                                            }
+
+                                            this.getPassword = function() {
+                                                return user.password
+                                            }
+
+                                            return this
+                                        }
+
+                                        function create(firstName, lastName, email, password) {
+                                            return user({
+                                                firstName: firstName,
+                                                lastName: lastName,
+                                                email: email,
+                                                password: password
+                                            })
+                                        }
+                                    }
+
+                                })(window, aventador);
                             </pre>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="StringUtility">
                             <pre class="brush: js;">
                                 (function () {
+
                                     aventador
                                         .module('myApp')
-                                        .utility('StringUtility', function () {
-                                            return {
-                                                isString: isString,
-                                                isEmpty: isEmpty,
-                                                queryStringToJson: queryStringToJson
-                                            }
+                                        .utility('StringUtility', StringUtility)
 
-                                            function isString(data) {
-                                                return typeof data === 'string'
-                                            }
+                                    function StringUtility() {
+                                        return {
+                                            isString: isString,
+                                            isEmpty: isEmpty,
+                                            queryStringToJson: queryStringToJson
+                                        }
 
-                                            function isEmpty(data) {
-                                                return isString(data) && data.length < 1
-                                            }
+                                        function isString(data) {
+                                            return typeof data === 'string'
+                                        }
 
-                                            function queryStringToJson(queryString) {
-                                                return $.parseJSON('{"' + queryString.replace(/&/g, '","').replace(/=/g, '":"') + '"}');
-                                            }
-                                        })
+                                        function isEmpty(data) {
+                                            return isString(data) && data.length < 1
+                                        }
+
+                                        function queryStringToJson(queryString) {
+                                            return $.parseJSON('{"' + queryString.replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+                                        }
+                                    }
+
                                 })()
                             </pre>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="UsersUtility">
                             <pre class="brush: js;">
                                 (function () {
+
                                     aventador
                                         .module('myApp')
-                                        .utility('UsersUtility', function (StringUtility) {
-                                            return {
-                                                validateUser: validateUser
+                                        .utility('UsersUtility', UsersUtility)
+
+                                    function UsersUtility(StringUtility) {
+                                        return {
+                                            validateUser: validateUser
+                                        }
+
+                                        function validateUser(user) {
+                                            var errors = [];
+
+                                            if (StringUtility.isEmpty(user.firstname)) {
+                                                errors.push('first name must not be empty.')
                                             }
 
-                                            function validateUser(user) {
-                                                var errors = [];
-
-                                                if (StringUtility.isEmpty(user.firstname)) {
-                                                    errors.push('first name must not be empty.')
-                                                }
-
-                                                if (!StringUtility.isString(user.firstname)) {
-                                                    errors.push('first name must be a string.')
-                                                }
-
-                                                if (StringUtility.isEmpty(user.lastname)) {
-                                                    errors.push('last name must not be empty.')
-                                                }
-
-                                                if (!StringUtility.isString(user.lastname)) {
-                                                    errors.push('last name must be a string.')
-                                                }
-
-                                                if (StringUtility.isEmpty(user.password)) {
-                                                    errors.push('password must not be empty.')
-                                                } else {
-                                                    if (StringUtility.isEmpty(user.passwordconfirm)) {
-                                                        errors.push('confirm password must not be empty.')
-                                                    } else if(user.passwordconfirm !== user.password) {
-                                                        errors.push('password does not match.')
-                                                    }
-                                                }
-
-                                                return errors
+                                            if (!StringUtility.isString(user.firstname)) {
+                                                errors.push('first name must be a string.')
                                             }
 
-                                        })
+                                            if (StringUtility.isEmpty(user.lastname)) {
+                                                errors.push('last name must not be empty.')
+                                            }
+
+                                            if (!StringUtility.isString(user.lastname)) {
+                                                errors.push('last name must be a string.')
+                                            }
+
+                                            if (StringUtility.isEmpty(user.password)) {
+                                                errors.push('password must not be empty.')
+                                            } else {
+                                                if (StringUtility.isEmpty(user.passwordconfirm)) {
+                                                    errors.push('confirm password must not be empty.')
+                                                } else if(user.passwordconfirm !== user.password) {
+                                                    errors.push('password does not match.')
+                                                }
+                                            }
+
+                                            return errors
+                                        }
+                                    }
+
                                 })()
                             </pre>
                         </div>
@@ -336,11 +355,11 @@
 
                                         $usersTable.append(
                                                 '<tr>' +
-                                                '<td>' + user.getId() + '</td>' +
-                                                '<td>' + user.getFirstName() + '</td>' +
-                                                '<td>' + user.getLastName() + '</td>' +
-                                                '<td>' + user.getEmail() + '</td>' +
-                                                '</tr>'
+                                                                '<td>' + user.getId() + '</td>' +
+                                                                '<td>' + user.getFirstName() + '</td>' +
+                                                                '<td>' + user.getLastName() + '</td>' +
+                                                                '<td>' + user.getEmail() + '</td>' +
+                                                                '</tr>'
                                             )
                                     }
 

@@ -1,38 +1,42 @@
-(function () {
+(function (window, aventador) {
+
     aventador
         .module('myApp')
-        .handler('UsersHandler', function (UsersFactory, UsersService, UsersUtility) {
-            return {
-                getUsers: getUsers,
-                register: register
-            }
+        .handler('UsersHandler', UsersHandler)
 
-            function register(data, callback) {
-                var callback = callback || false,
-                    errors = UsersUtility.validateUser(data),
-                    response = {
-                        success: false,
-                        errors: errors,
-                        data: {}
-                    }
+    function UsersHandler(UsersFactory, UsersService, UsersUtility) {
+        return {
+            getUsers: getUsers,
+            register: register
+        }
 
-                if (!response.errors.length) {
-                    var user = UsersFactory.create(
-                        data.firstname,
-                        data.lastname,
-                        data.email,
-                        data.password
-                    )
-
-                    response.data.user = UsersService.register(user)
-                    response.success = Boolean(response.data.user)
+        function register(data, callback) {
+            var callback = callback || false,
+                errors = UsersUtility.validateUser(data),
+                response = {
+                    success: false,
+                    errors: errors,
+                    data: {}
                 }
 
-                if (callback) callback(response)
+            if (!response.errors.length) {
+                var user = UsersFactory.create(
+                    data.firstname,
+                    data.lastname,
+                    data.email,
+                    data.password
+                )
+
+                response.data.user = UsersService.register(user)
+                response.success = Boolean(response.data.user)
             }
 
-            function getUsers() {
-                return UsersService.getUsers()
-            }
-        })
-})()
+            if (callback) callback(response)
+        }
+
+        function getUsers() {
+            return UsersService.getUsers()
+        }
+    }
+
+})(window, aventador)

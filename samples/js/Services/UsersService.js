@@ -1,22 +1,26 @@
-(function () {
+(function (window, aventador) {
+
     aventador
         .module('myApp')
-        .service('UsersService', function () {
-            
-            // NOTE: data should be saved in a database. this is just temporary
-            var users = {}
+        .service('UsersService', UsersService)
 
-            return {
-                getUsers: getUsers,
-                register: register
-            }
+    function UsersService() {
 
-            function getUsers() {
-                return users
-            }
+        // NOTE: data should be saved in a database. this is just temporary
+        var users = {}
 
-            function register(user) {
-                return users[user.getId()] = user
-            }
-        })
-})()
+        return {
+            getUsers: getUsers,
+            register: register
+        }
+
+        function getUsers() {
+            return users
+        }
+
+        function register(user) {
+            return users[user.getId()] = user
+        }
+    }
+
+})(window, aventador)
