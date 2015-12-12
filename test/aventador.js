@@ -15,7 +15,8 @@ describe('aventador', function() {
             'getService',
             'getFactory',
             'getUtility',
-            'getModel'
+            'getModel',
+            'getController'
         ]
 
     describe('aventador object', function () {
@@ -123,6 +124,40 @@ describe('aventador', function() {
                 })
         })
 
+    })
+
+    describe('errors', function() {
+        var myApp = aventador.module('myApp')
+
+        it('should throw appropriate errors when getting a controller', function() {
+            expect(function() { myApp.getController('PizzaController') }).to.throw(aventador.AventadorException, /`PizzaController` does not exists/);
+            expect(function() { myApp.getController('SomeController') }).to.not.throw(aventador.AventadorException);
+        })
+
+        it('should throw appropriate errors when getting a handler', function() {
+            expect(function() { myApp.getHandler('PizzaHandler') }).to.throw(aventador.AventadorException, /`PizzaHandler` does not exists/);
+            expect(function() { myApp.getHandler('SomeHandler') }).to.not.throw(aventador.AventadorException);
+        })
+
+        it('should throw appropriate errors when getting a model', function() {
+            expect(function() { myApp.getModel('PizzaModel') }).to.throw(aventador.AventadorException, /`PizzaModel` does not exists/);
+            expect(function() { myApp.getModel('SomeModel') }).to.not.throw(aventador.AventadorException);
+        })
+
+        it('should throw appropriate errors when getting a service', function() {
+            expect(function() { myApp.getService('PizzaService') }).to.throw(aventador.AventadorException, /`PizzaService` does not exists/);
+            expect(function() { myApp.getService('SomeService') }).to.not.throw(aventador.AventadorException);
+        })
+
+        it('should throw appropriate errors when getting a factory', function() {
+            expect(function() { myApp.getFactory('PizzaFactory') }).to.throw(aventador.AventadorException, /`PizzaFactory` does not exists/);
+            expect(function() { myApp.getFactory('SomeFactory') }).to.not.throw(aventador.AventadorException);
+        })
+
+        it('should throw appropriate errors when getting a utility', function() {
+            expect(function() { myApp.getUtility('PizzaUtility') }).to.throw(aventador.AventadorException, /`PizzaUtility` does not exists/);
+            expect(function() { myApp.getUtility('SomeUtility') }).to.not.throw(aventador.AventadorException);
+        })
     })
 
 })

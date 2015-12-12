@@ -251,7 +251,8 @@ if (typeof exports !== 'undefined') {
                 getService: getService,
                 getModel: getModel,
                 getFactory: getFactory,
-                getUtility: getUtility
+                getUtility: getUtility,
+                getController: getController
             }
         }
 
@@ -425,7 +426,8 @@ if (typeof exports !== 'undefined') {
 
         return {
             module: module,
-            helpers: helpers
+            helpers: helpers,
+            AventadorException: AventadorException
         }
 
 

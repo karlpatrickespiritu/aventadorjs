@@ -105,7 +105,8 @@
                 getService: getService,
                 getModel: getModel,
                 getFactory: getFactory,
-                getUtility: getUtility
+                getUtility: getUtility,
+                getController: getController
             }
         }
 
@@ -279,7 +280,8 @@
 
         return {
             module: module,
-            helpers: helpers
+            helpers: helpers,
+            AventadorException: AventadorException
         }
 
 
