@@ -104,15 +104,15 @@ app.js
 })(window, aventador);
 ```
 
-somewhere in your jQuery event handlers.
+Using with jQuery event handlers.
 ```JavaScript
 (function(window, $, aventador) {
     "use strict";
     
     // document ready
     $(function() {
-        var myApp = aventador.module('myApp'),
-            UsersHandler = myApp.getHandler('UsersHandler');
+        var myApp = aventador.module('myApp'), // your app module
+            UsersHandler = myApp.getHandler('UsersHandler'); // your handler object
     
         $('form').on('submit', function(e) {
             var $this = $(this),
