@@ -4,10 +4,6 @@
 
 A JavaScript application modules organizer.
 
-Version
---------
-[0.0.5](https://github.com/karlpatrickespiritu/aventadorjs/releases)
-
 Installation
 --------
 via [npm](https://www.npmjs.com/)
