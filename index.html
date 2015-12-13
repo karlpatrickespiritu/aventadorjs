@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>AventadorJs by karlpatrickespiritu</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>AventadorJs</h1>
+        <h2>A JavaScript application modules organizer.</h2>
+        <a href="https://github.com/karlpatrickespiritu/aventadorjs" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a id="aventadorjs" class="anchor" href="#aventadorjs" aria-hidden="true"><span class="octicon octicon-link"></span></a>aventadorjs</h1>
+
+<p><a href="https://travis-ci.org/karlpatrickespiritu/aventadorjs"><img src="https://travis-ci.org/karlpatrickespiritu/aventadorjs.svg?branch=master" alt="Build Status"></a></p>
+
+<p>A JavaScript application modules organizer.</p>
+
+<h2>
+<a id="version" class="anchor" href="#version" aria-hidden="true"><span class="octicon octicon-link"></span></a>Version</h2>
+
+<p><a href="https://github.com/karlpatrickespiritu/aventadorjs/releases">0.0.5</a></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>via <a href="https://www.npmjs.com/">npm</a></p>
+
+<div class="highlight highlight-source-shell"><pre>$ npm install aventadorjs</pre></div>
+
+<p>via <a href="bower.io">bower</a></p>
+
+<div class="highlight highlight-source-shell"><pre>$ bower install args-checker-js</pre></div>
+
+<h2>
+<a id="sample-application" class="anchor" href="#sample-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>Sample Application</h2>
+
+<p>See aventadorjs in action in <a href="http://karlpatrickespiritu.github.io/aventadorjs/sample-app/">this sample app</a>.</p>
+
+<h2>
+<a id="quick-usage" class="anchor" href="#quick-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick Usage</h2>
+
+<p><strong>NOTE:</strong> dummy data were used just to show an example.</p>
+
+<p>include aventador in your app.</p>
+
+<div class="highlight highlight-text-html-basic"><pre>&lt;<span class="pl-ent">script</span> <span class="pl-e">src</span>=<span class="pl-s"><span class="pl-pds">"</span>aventadorjs/dist/aventador.min.js<span class="pl-pds">"</span></span>&gt;&lt;/<span class="pl-ent">script</span>&gt;</pre></div>
+
+<p>app.js</p>
+
+<div class="highlight highlight-source-js"><pre>(<span class="pl-k">function</span>(<span class="pl-smi">window</span>, <span class="pl-smi">aventador</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+
+    <span class="pl-k">var</span> myApp <span class="pl-k">=</span> <span class="pl-smi">aventador</span>.<span class="pl-en">module</span>(<span class="pl-s"><span class="pl-pds">'</span>myApp<span class="pl-pds">'</span></span>);
+
+    myApp
+        .<span class="pl-en">utility</span>(<span class="pl-s"><span class="pl-pds">'</span>StringUtility<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>() {
+            <span class="pl-k">return</span> {
+                isString<span class="pl-k">:</span> isString
+            }
+
+            <span class="pl-k">function</span> <span class="pl-en">isString</span>(<span class="pl-smi">str</span>) {
+                <span class="pl-k">return</span> <span class="pl-k">typeof</span> str <span class="pl-k">===</span> <span class="pl-s"><span class="pl-pds">'</span>string<span class="pl-pds">'</span></span>;
+            }
+        })
+        .<span class="pl-en">factory</span>(<span class="pl-s"><span class="pl-pds">'</span>UsersFactory<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">StringUtility</span>) { <span class="pl-c">// Dependency Injection</span>
+            <span class="pl-k">return</span> {
+                create<span class="pl-k">:</span> create
+            }
+
+            <span class="pl-k">function</span> <span class="pl-en">create</span>(<span class="pl-smi">user</span>) {
+                <span class="pl-c">// some user creation here..</span>
+                <span class="pl-k">if</span> (<span class="pl-smi">StringUtility</span>.<span class="pl-en">isString</span>(<span class="pl-smi">user</span>.<span class="pl-c1">name</span>)) {
+                    <span class="pl-k">return</span> { id<span class="pl-k">:</span> <span class="pl-c1">123</span>, name<span class="pl-k">:</span> <span class="pl-smi">user</span>.<span class="pl-c1">name</span>};
+                }
+
+                <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+            }
+        })
+        .<span class="pl-en">service</span>(<span class="pl-s"><span class="pl-pds">'</span>UsersService<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">UsersFactory</span>) {
+            <span class="pl-k">return</span> {
+                isLoggedIn<span class="pl-k">:</span> isLoggedIn,
+                register<span class="pl-k">:</span> register
+            }
+
+            <span class="pl-k">function</span> <span class="pl-en">isLoggedIn</span>() {
+                <span class="pl-c">// some ajax request here..</span>
+                <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+            }
+
+            <span class="pl-k">function</span> <span class="pl-en">register</span>(<span class="pl-smi">user</span>) {
+                <span class="pl-k">var</span> user <span class="pl-k">=</span> <span class="pl-smi">UsersFactory</span>.<span class="pl-en">create</span>(user);
+                <span class="pl-c">// some ajax request here..</span>
+                <span class="pl-k">return</span> user;
+            }
+        })
+        .<span class="pl-en">handler</span>(<span class="pl-s"><span class="pl-pds">'</span>UsersHandler<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">UsersService</span>) {
+            <span class="pl-k">return</span> {
+                register<span class="pl-k">:</span> register
+            }
+
+            <span class="pl-k">function</span> <span class="pl-en">register</span>(<span class="pl-smi">user</span>, <span class="pl-smi">callback</span>) {
+                <span class="pl-k">if</span> (<span class="pl-k">!</span><span class="pl-smi">UsersService</span>.<span class="pl-en">isLoggedIn</span>()) {
+                    <span class="pl-k">var</span> user <span class="pl-k">=</span> <span class="pl-smi">UsersService</span>.<span class="pl-en">register</span>(user);
+
+                    <span class="pl-k">if</span> (callback) { <span class="pl-en">callback</span>(user) }
+
+                    <span class="pl-k">return</span> user;
+                }
+
+                <span class="pl-k">return</span> <span class="pl-c1">false</span>;
+            }
+        })
+
+})(<span class="pl-c1">window</span>, aventador);</pre></div>
+
+<p>Using with jQuery event handlers.</p>
+
+<div class="highlight highlight-source-js"><pre>(<span class="pl-k">function</span>(<span class="pl-smi">window</span>, <span class="pl-smi">$</span>, <span class="pl-smi">aventador</span>) {
+    <span class="pl-s"><span class="pl-pds">"</span>use strict<span class="pl-pds">"</span></span>;
+
+    <span class="pl-c">// document ready</span>
+    <span class="pl-en">$</span>(<span class="pl-k">function</span>() {
+        <span class="pl-k">var</span> myApp <span class="pl-k">=</span> <span class="pl-smi">aventador</span>.<span class="pl-en">module</span>(<span class="pl-s"><span class="pl-pds">'</span>myApp<span class="pl-pds">'</span></span>), <span class="pl-c">// your app module</span>
+            UsersHandler <span class="pl-k">=</span> <span class="pl-smi">myApp</span>.<span class="pl-en">getHandler</span>(<span class="pl-s"><span class="pl-pds">'</span>UsersHandler<span class="pl-pds">'</span></span>); <span class="pl-c">// your handler object</span>
+
+        <span class="pl-en">$</span>(<span class="pl-s"><span class="pl-pds">'</span>form<span class="pl-pds">'</span></span>).<span class="pl-en">on</span>(<span class="pl-s"><span class="pl-pds">'</span>submit<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">e</span>) {
+            <span class="pl-k">var</span> $<span class="pl-v">this</span> <span class="pl-k">=</span> <span class="pl-en">$</span>(<span class="pl-v">this</span>),
+                data <span class="pl-k">=</span> <span class="pl-smi">$this</span>.<span class="pl-en">serialize</span>();
+
+            <span class="pl-smi">UsersHandler</span>.<span class="pl-en">register</span>(data, <span class="pl-k">function</span>(<span class="pl-smi">user</span>) {
+                <span class="pl-en">console</span>.<span class="pl-c1">log</span>(user); <span class="pl-c">// Object {id: 123, name: "john"}</span>
+            })
+
+            <span class="pl-smi">e</span>.<span class="pl-en">preventDefault</span>();
+        })
+    })
+
+})(<span class="pl-c1">window</span>, jQuery, aventador);</pre></div>
+
+<h2>
+<a id="maintainers" class="anchor" href="#maintainers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Maintainers</h2>
+
+<ul>
+<li><a href="https://github.com/karlpatrickespiritu">@karlpatrickespiritu</a></li>
+<li>and <a href="https://github.com/karlpatrickespiritu/aventadorjs/graphs/contributors">contributors</a>
+</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>(C) <a href="https://github.com/karlpatrickespiritu/">Karl Patrick Espiritu</a> 2015, released under the MIT license</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/karlpatrickespiritu/aventadorjs/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/karlpatrickespiritu/aventadorjs/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/karlpatrickespiritu/aventadorjs"></a> is maintained by <a href="https://github.com/karlpatrickespiritu">karlpatrickespiritu</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-71271390-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
