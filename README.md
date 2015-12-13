@@ -20,12 +20,10 @@ via [bower](bower.io)
 $ bower install args-checker-js
 ```
 
-Documentation
+Sample Application
 --------
 
-For a detailed information about aventadorjs, please visit our [docs site](http://karlpatrickespiritu.github.io/aventadorjs/).
-
-Also, you might want to see aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
+See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
 Quick Usage
 --------
@@ -54,7 +52,7 @@ app.js
                 return typeof str === 'string';
             }
         })
-        .factory('UsersFactory', function(StringUtility) {
+        .factory('UsersFactory', function(StringUtility) { // Dependency Injection
             return {
                 create: create
             }
