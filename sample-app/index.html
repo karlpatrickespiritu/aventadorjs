@@ -1,0 +1,411 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>aventadorjs sample</title>
+    
+    <!-- CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    <!-- SyntaxHighlighter -->
+    <script type="text/javascript" src="libs/syntaxhighlighter/scripts/shCore.js"></script>
+    <link type="text/css" rel="stylesheet" href="libs/syntaxhighlighter/styles/shCoreDefault.css"/>
+    
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="text-center"><b>Aventadorjs Sample App</b></h1>
+                <br/>
+                <div class="text-center">
+                    <a href="http://karlpatrickespiritu.github.io/aventadorjs/"><i class="fa fa-github fa-lg"></i> See Documentation</a>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="row">
+            <div class="col-md-12">
+                <iframe src="https://ghbtns.com/github-btn.html?user=karlpatrickespiritu&repo=aventadorjs&type=star&count=true&" frameborder="0" scrolling="0" width="90px" height="30px"></iframe>
+                <iframe src="https://ghbtns.com/github-btn.html?user=karlpatrickespiritu&repo=aventadorjs&type=watch&count=true&&v=2" frameborder="0" scrolling="0" width="90px" height="30px"></iframe>
+                <iframe src="https://ghbtns.com/github-btn.html?user=karlpatrickespiritu&repo=aventadorjs&type=fork&count=true&" frameborder="0" scrolling="0" width="90px" height="30px"></iframe>
+                <iframe src="https://ghbtns.com/github-btn.html?user=karlpatrickespiritu&type=follow&count=true" frameborder="0" scrolling="0" width="250px" height="30px"></iframe>
+            </div>
+        </div>
+        <hr>
+        <div class="row contents" id="users-page">
+            <div class="col-md-4">
+                <form id="registration-form" method="POST">
+                   <!-- <h2>Add User</h2>-->
+                    <br/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger errors" role="alert" style="display:none">
+                                <ul class="error-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" name="firstname" class="form-control" placeholder="first name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name</label>
+                        <input type="text" name="lastname" class="form-control" placeholder="last name">
+                    </div>
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input type="text" name="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" name="passwordconfirm" class="form-control" placeholder="Confirm Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Add User</button>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <!--<h2>Users</h2>-->
+                <table class="table users-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation"><a href="#EventHandler" aria-controls="EventHandler" role="tab" data-toggle="tab">EventHandler.js</a></li>
+                        <li role="presentation" class="active"><a href="#UsersHandler" aria-controls="UsersHandler" role="tab" data-toggle="tab">UsersHandler.js</a></li>
+                        <li role="presentation"><a href="#UsersService" aria-controls="UsersService" role="tab" data-toggle="tab">UsersService.js</a></li>
+                        <li role="presentation"><a href="#UsersFactory" aria-controls="UsersFactory" role="tab" data-toggle="tab">UsersFactory.js</a></li>
+                        <li role="presentation"><a href="#StringUtility" aria-controls="StringUtility" role="tab" data-toggle="tab">StringUtility.js</a></li>
+                        <li role="presentation"><a href="#UsersUtility" aria-controls="UsersUtility" role="tab" data-toggle="tab">UsersUtility.js</a></li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="UsersHandler">
+                            <pre class="brush: js;">
+                                (function (window, aventador) {
+
+                                    aventador
+                                        .module('myApp')
+                                        .handler('UsersHandler', UsersHandler)
+
+                                    function UsersHandler(UsersFactory, UsersService, UsersUtility) {
+                                        return {
+                                            getUsers: getUsers,
+                                            register: register
+                                        }
+
+                                        function register(data, callback) {
+                                            var callback = callback || false,
+                                                errors = UsersUtility.validateUser(data),
+                                                response = {
+                                                    success: false,
+                                                    errors: errors,
+                                                    data: {}
+                                                }
+
+                                            if (!response.errors.length) {
+                                                var user = UsersFactory.create(
+                                                    data.firstname,
+                                                    data.lastname,
+                                                    data.email,
+                                                    data.password
+                                                )
+
+                                                response.data.user = UsersService.register(user)
+                                                response.success = Boolean(response.data.user)
+                                            }
+
+                                            if (callback) callback(response)
+                                        }
+
+                                        function getUsers() {
+                                            return UsersService.getUsers()
+                                        }
+                                    }
+
+                                })(window, aventador)
+                            </pre>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="UsersService">
+                            <pre class="brush: js;">
+                                (function (window, aventador) {
+
+                                    aventador
+                                        .module('myApp')
+                                        .service('UsersService', UsersService)
+
+                                    function UsersService() {
+
+                                        // NOTE: data should be saved in a database. this is just temporary
+                                        var users = {}
+
+                                        return {
+                                            getUsers: getUsers,
+                                            register: register
+                                        }
+
+                                        function getUsers() {
+                                            return users
+                                        }
+
+                                        function register(user) {
+                                            return users[user.getId()] = user
+                                        }
+                                    }
+
+                                })(window, aventador)
+                            </pre>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="UsersFactory">
+                            <pre class="brush: js;">
+                                (function (window, aventador) {
+
+                                    aventador
+                                        .module('myApp')
+                                        .factory('UsersFactory', UsersFactory)
+
+                                    function UsersFactory() {
+                                        return {
+                                            create: create
+                                        }
+
+                                        function user(user) {
+                                            var user = {
+                                                id: Math.floor((Math.random() * 1000) + 1) + '' + user.firstName + ''+ user.lastName,
+                                                firstName: user.firstName || '',
+                                                lastName: user.lastName || '',
+                                                email: user.email || '',
+                                                password: user.password || ''
+                                            }
+
+                                            this.getId = function() {
+                                                return user.id
+                                            }
+
+                                            this.getFirstName = function() {
+                                                return user.firstName
+                                            }
+
+                                            this.getLastName = function() {
+                                                return user.lastName
+                                            }
+
+                                            this.getEmail = function() {
+                                                return user.email
+                                            }
+
+                                            this.getPassword = function() {
+                                                return user.password
+                                            }
+
+                                            return this
+                                        }
+
+                                        function create(firstName, lastName, email, password) {
+                                            return user({
+                                                firstName: firstName,
+                                                lastName: lastName,
+                                                email: email,
+                                                password: password
+                                            })
+                                        }
+                                    }
+
+                                })(window, aventador);
+                            </pre>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="StringUtility">
+                            <pre class="brush: js;">
+                                (function () {
+
+                                    aventador
+                                        .module('myApp')
+                                        .utility('StringUtility', StringUtility)
+
+                                    function StringUtility() {
+                                        return {
+                                            isString: isString,
+                                            isEmpty: isEmpty,
+                                            queryStringToJson: queryStringToJson
+                                        }
+
+                                        function isString(data) {
+                                            return typeof data === 'string'
+                                        }
+
+                                        function isEmpty(data) {
+                                            return isString(data) && data.length < 1
+                                        }
+
+                                        function queryStringToJson(queryString) {
+                                            return $.parseJSON('{"' + queryString.replace(/&/g, '","').replace(/=/g, '":"') + '"}');
+                                        }
+                                    }
+
+                                })()
+                            </pre>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="UsersUtility">
+                            <pre class="brush: js;">
+                                (function () {
+
+                                    aventador
+                                        .module('myApp')
+                                        .utility('UsersUtility', UsersUtility)
+
+                                    function UsersUtility(StringUtility) {
+                                        return {
+                                            validateUser: validateUser
+                                        }
+
+                                        function validateUser(user) {
+                                            var errors = [];
+
+                                            if (StringUtility.isEmpty(user.firstname)) {
+                                                errors.push('first name must not be empty.')
+                                            }
+
+                                            if (!StringUtility.isString(user.firstname)) {
+                                                errors.push('first name must be a string.')
+                                            }
+
+                                            if (StringUtility.isEmpty(user.lastname)) {
+                                                errors.push('last name must not be empty.')
+                                            }
+
+                                            if (!StringUtility.isString(user.lastname)) {
+                                                errors.push('last name must be a string.')
+                                            }
+
+                                            if (StringUtility.isEmpty(user.password)) {
+                                                errors.push('password must not be empty.')
+                                            } else {
+                                                if (StringUtility.isEmpty(user.passwordconfirm)) {
+                                                    errors.push('confirm password must not be empty.')
+                                                } else if(user.passwordconfirm !== user.password) {
+                                                    errors.push('password does not match.')
+                                                }
+                                            }
+
+                                            return errors
+                                        }
+                                    }
+
+                                })()
+                            </pre>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="EventHandler">
+                            <pre class="brush: js;">
+                                (function () {
+
+                                    var myApp = aventador.module('myApp'), // create app
+                                        $page = $('#users-page'),
+                                        $registrationForm = $page.find('form#registration-form'),
+                                        $usersTable = $page.find('table.users-table tbody'),
+                                        $errors = $page.find('.errors')
+                                        $errorList = $errors.find('ul.error-list')
+
+                                    /*===== EVENT HANDLERS =====*/
+
+                                    $registrationForm.on('submit', function (e) {
+                                        e.preventDefault()
+
+                                        var $this = $(this),
+                                            StringUtility = myApp.getUtility('StringUtility'),
+                                            UsersHandler = myApp.getHandler('UsersHandler'),
+                                            data = StringUtility.queryStringToJson($this.serialize())
+
+                                        UsersHandler.register(data, function(response) {
+                                            if (response.success) {
+                                                $.publish('users/add', [response.data.user])
+                                            } else if (response.errors.length) {
+                                                $.publish('users/add/errors', [response.errors])
+                                            }
+                                        })
+                                    })
+
+
+                                    /*===== PUB/SUB =====*/
+
+                                    function addUser(_, user) {
+                                        // Skip the first argument (event object) but log the name and other args.
+                                        $errors.hide()
+                                        $errorList.html('')
+
+                                        $usersTable.append(
+                                                '<tr>' +
+                                                                '<td>' + user.getId() + '</td>' +
+                                                                '<td>' + user.getFirstName() + '</td>' +
+                                                                '<td>' + user.getLastName() + '</td>' +
+                                                                '<td>' + user.getEmail() + '</td>' +
+                                                                '</tr>'
+                                            )
+                                    }
+
+                                    function addUserErrors(_, errors) {
+                                        $errors.show()
+                                        $errorList.html('')
+
+                                        errors.forEach(function(value, index) {
+                                            $errorList.append('<li>' + value + '</li>')
+                                        })
+                                    }
+
+                                    $.subscribe('users/add', addUser);
+                                    $.subscribe('users/add/errors', addUserErrors);
+
+                                })()
+                            </pre>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+    </div>
+
+    <footer>
+        <!-- CDN -->
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+        <script type="text/javascript" src="libs/syntaxhighlighter/scripts/shBrushJScript.js"></script>
+        <script type="text/javascript">SyntaxHighlighter.all();</script>
+
+        <script src="js/aventador.min.js"></script>
+        <script src="js/tiny-pubsub.js"></script>
+
+        <!-- App -->
+        <script src="js/EventHandler.js"></script>
+        <script src="js/Utilities/StringUtility.js"></script>
+        <script src="js/Factories/UsersFactory.js"></script>
+        <script src="js/Utilities/UsersUtility.js"></script>
+        <script src="js/Services/UsersService.js"></script>
+        <script src="js/Handlers/UsersHandler.js"></script>
+    </footer>
+</body>
+</html>
