@@ -1,7 +1,7 @@
 {
   "name": "aventadorjs",
-  "version": "0.0.5",
-  "description": "a javascript module organizer",
+  "version": "0.1.2",
+  "description": "A JavaScript application modules organizer.",
   "main": "",
   "scripts": {
     "test": "mocha --recursive"
