@@ -25,7 +25,7 @@ API
 --------
 
 #### .module(moduleName)
-creates a module.
+> module will serve as a container of the different parts of your app.
 
  - moduleName (*string*) - the name of the module.
 
@@ -34,7 +34,7 @@ creates a module.
 ```
 
 #### .controller(controllerName, controllerFunction)
-create a controller object
+> creates a controller object.
 
  - controllerName (*string*) - the name of the controller.
  - controllerFunction (*function*) - a module function that returns an object.
