@@ -41,22 +41,20 @@ var myApp = aventador.module('myApp');
 > - utilityFunction (*function*) - a function that returns a utility object.
 
 ```JavaScript
-aventador
-	myApp.module('myApp')
-	.utility('StringUtility', function() {
-		return {
-			upperCaseWords: upperCaseWords
-		}
-		
-		function upperCaseWords(string) {
-			var words = string.split(' ')
+myApp.utility('StringUtility', function() {
+    return {
+        upperCaseWords: upperCaseWords
+    }
 
-            for (var i = 0; i <= (words.length - 1); i++)
-                words[i] = words[i].charAt(0).toUpperCase() + string.slice(1)
+    function upperCaseWords(string) {
+        var words = string.split(' ')
 
-            return words.join(' ')
-        }
-	});
+        for (var i = 0; i <= (words.length - 1); i++)
+            words[i] = words[i].charAt(0).toUpperCase() + string.slice(1)
+
+        return words.join(' ')
+    }
+});
 ```
 
 #### .service(serviceName, serviceFunction)
@@ -68,18 +66,16 @@ aventador
 > - serviceFunction (*function*) - a function that returns a service object.
 
 ```JavaScript
-aventador
-	.module('myApp')
-	.service('UsersService', function() {
-		return {
-			register: register
-		}
-		
-		// sample service using jQuery's $.post method
- 		function register(data, callback) {
-			$.post('/some/api/request/path', data).done(callback || false);
-		}
-	});
+myApp.service('UsersService', function() {
+    return {
+        register: register
+    }
+
+    // sample service using jQuery's $.post method
+    function register(data, callback) {
+        $.post('/some/api/request/path', data).done(callback || false);
+    }
+});
 ```
 
 #### .factory(factoryName, factoryFunction)
@@ -91,22 +87,20 @@ aventador
 > - factoryFunction (*function*) - a function that returns a factory object.
 
 ```JavaScript
-aventador
-	.module('myApp')
-	.factory('UsersFactory', function() {
-		return {
-			create: create
-		}
-		
-		function create(params) {
-			// some factory creation going on here..
-			return { 
-				getName: function () {
-					return 'someName';
-				}
-			}
-		}
-	});
+myApp.factory('UsersFactory', function() {
+    return {
+        create: create
+    }
+
+    function create(params) {
+        // some factory creation going on here..
+        return {
+            getName: function () {
+                return 'someName';
+            }
+        }
+    }
+});
 ```
 
 #### .controller(controllerName, controllerFunction)
@@ -118,19 +112,16 @@ aventador
 > - controllerFunction (*function*) - a function that returns a controller object.
 
 ```JavaScript
-// example
-aventador
-	.module('myApp')
-	.controller('RegistrationController', function() {
-		return {
-			register: register
-		}
+myApp.controller('RegistrationController', function() {
+    return {
+        register: register
+    }
 
-		function register() {
-			// some badass logic here
-			return { registered: true, user: { name: 'john' } }
-		}
-	});
+    function register() {
+        // some badass logic here
+        return { registered: true, user: { name: 'john' } }
+    }
+});
 ```
 
 #### .getController(controllerName)
@@ -143,6 +134,40 @@ aventador
 ```JavaScript
 var RegistrationController = myApp.getController('RegistrationController');
 ```
+
+#### .getService(serviceName)
+> Returns the service object that was defined.
+>
+> Parameters:
+> 
+> - serviceName (*string*) - service name.
+
+```JavaScript
+var UsersService = myApp.getService('UsersService');
+```
+
+#### .getUtility(utilityName)
+> Returns the utility object that was defined.
+>
+> Parameters:
+> 
+> - utilityName (*string*) - utility name.
+
+```JavaScript
+var StringUtility = myApp.getUtility('StringUtility');
+```
+
+#### .getFactory(factoryName)
+> Returns the factory object that was defined.
+>
+> Parameters:
+> 
+> - factoryName (*string*) - factory name.
+
+```JavaScript
+var UsersFactory = myApp.getFactory('UsersFactory');
+```
+
 
 Quick Usage
 --------
