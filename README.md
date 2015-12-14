@@ -75,15 +75,15 @@ aventador
 			register: register
 		}
 		
- 		function register() {
-			// some API request to a server here.
-			return { status: 'ok', user: { name: 'john doe' } }
+		// sample service using jQuery's $.post method
+ 		function register(data, callback) {
+			$.post('/some/api/request/path', data).done(callback || false);
 		}
 	});
 ```
 
 #### .factory(factoryName, factoryFunction)
-> Creates a factory object. 
+> Creates a factory object. A is a creational pattern concerned with the notion of creating objects. See [Factory Pattern](http://addyosmani.com/resources/essentialjsdesignpatterns/book/#factorypatternjavascript).
 >
 > Parameters:
 > 
@@ -95,10 +95,10 @@ aventador
 	.module('myApp')
 	.factory('UsersFactory', function() {
 		return {
-			someCreation: someCreation
+			create: create
 		}
 		
-		function someCreation() {
+		function create(params) {
 			// some factory creation going on here..
 			return {}
 		}
@@ -123,8 +123,8 @@ aventador
 		}
 
 		function register() {
-			// some badass login here
-			return { foo: 'bar' }
+			// some badass logic here
+			return { registered: true, user: { name: 'john' } }
 		}
 	});
 ```
