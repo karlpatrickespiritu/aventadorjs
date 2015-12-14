@@ -2,9 +2,9 @@
 
 [![Build Status](https://travis-ci.org/karlpatrickespiritu/aventadorjs.svg?branch=master)](https://travis-ci.org/karlpatrickespiritu/aventadorjs)
 
-A JavaScript application modules organizer.
+####javascript module organizer.
 
-See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
+Aventadorjs let's you organize your javascript code into different layers to enable decoupling.
 
 Installation
 --------
@@ -42,7 +42,7 @@ var myApp = aventador.module('myApp');
 
 ```JavaScript
 aventador
-	.module('myApp')
+	myApp.module('myApp')
 	.utility('StringUtility', function() {
 		return {
 			upperCaseWords: upperCaseWords
@@ -100,7 +100,11 @@ aventador
 		
 		function create(params) {
 			// some factory creation going on here..
-			return {}
+			return { 
+				getName: function () {
+					return 'someName';
+				}
+			}
 		}
 	});
 ```
@@ -129,17 +133,31 @@ aventador
 	});
 ```
 
+#### .getController(controllerName)
+> Returns the controller object that was defined.
+>
+> Parameters:
+> 
+> - controllerName (*string*) - factory name.
+
+```JavaScript
+var RegistrationController = myApp.getController('RegistrationController');
+```
+
 Quick Usage
 --------
-**NOTE:** dummy data were used just to show an example.
 
+> See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
-include aventador in your app.
+**NOTE:** 
+It's much better to create a separate file for every component.
+
+load aventador.js
 ```html
 <script src="aventadorjs/dist/aventador.min.js"></script>
 ```
 
-app.js
+application.js
 ```JavaScript
 (function(window, aventador) {
     "use strict";
@@ -208,7 +226,7 @@ app.js
 })(window, aventador);
 ```
 
-Using with jQuery event handlers.
+Implementation using jQuery.
 ```JavaScript
 (function(window, $, aventador) {
     "use strict";
