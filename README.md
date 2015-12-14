@@ -31,6 +31,78 @@ A module will serve as a container of the different parts of your app.
 var myApp = aventador.module('myApp');
 ```
 
+#### .utility(utilityName, utilityFunction)
+Creates a utility object. Think of utilities as somewhat like helpers.
+
+> - utilityName (*string*) - utility name.
+> - utilityFunction (*function*) - a function that returns a utility object.
+
+```JavaScript
+// example
+aventador
+	.module('myApp')
+	.utility('StringUtility', function() {
+		return {
+			upperCaseWords: upperCaseWords
+		}
+		
+		function upperCaseWords(string) {
+			var words = string.split(' ')
+
+            for (var i = 0; i <= (words.length - 1); i++)
+                words[i] = words[i].charAt(0).toUpperCase() + string.slice(1)
+
+            return words.join(' ')
+        }
+	});
+```
+
+#### .service(serviceName, serviceFunction)
+> Creates a service object. A service object may contain functions that involves fetching data from a server or the like.
+>
+> Parameters
+> 
+> - serviceName (*string*) - service name.
+> - serviceFunction (*function*) - a function that returns a service object.
+
+```JavaScript
+// example
+aventador
+	.module('myApp')
+	.service('UsersService', function() {
+		return {
+			register: register
+		}
+		
+ 		function register() {
+			// some API request to a server here.
+			return { status: 'ok', user: { name: 'john doe' } }
+		}
+	});
+```
+
+#### .factory(factoryName, factoryFunction)
+Creates a factory object. 
+
+> - factoryName (*string*) - factory name.
+> - factoryFunction (*function*) - a function that returns a factory object.
+
+```JavaScript
+// example
+aventador
+	.module('myApp')
+	.factory('UsersFactory', function() {
+		return {
+			someCreation: someCreation
+		}
+		
+		function someCreation() {
+			// some factory creation going on here..
+			return {}
+		}
+	});
+```
+
 #### .controller(controllerName, controllerFunction)
 Creates a controller object. A controller object may implement logic of a particular module.
 
@@ -49,33 +121,6 @@ aventador
 		function register() {
 			// some badass login here
 			return { foo: 'bar' }
-		}
-	});
-```
-#### .service(serviceName, serviceFunction)
-Creates a service object. A service object may contain functions that involves fetching data from a server or the like.
-
-> - serviceName (*string*) - service name.
-> - serviceFunction (*function*) - a function that returns a service object.
-
-```JavaScript
-// example
-aventador
-	.module('myApp')
-	.service('UsersService', function() {
-		return {
-			isLoggedIn: isLoggedIn,
-			register: register
-		}
-		
-		function isLoggedIn() {
-			// some API request to a server here.
-			return false;
-		}
-		
- 		function register() {
-			// some API request to a server here.
-			return { status: 'ok', user: { name: 'john doe' } }
 		}
 	});
 ```
