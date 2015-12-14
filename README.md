@@ -21,13 +21,12 @@ Sample Application
 
 See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
-APIAPI
+APIAPIAPI
 --------
 
 #### .module(moduleName)
 creates a module.
 
-Parameters
  - moduleName (*string*) - the name of the module.
 
 ```JavaScript
@@ -37,7 +36,6 @@ Parameters
 #### .controller(controllerName, controllerFunction)
 create a controller object
 
-Parameters
  - controllerName (*string*) - the name of the controller.
  - controllerFunction (*function*) - a module function that returns an object.
 
