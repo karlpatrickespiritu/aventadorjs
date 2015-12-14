@@ -21,22 +21,23 @@ Sample Application
 
 See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
-API
+APIAPI
 --------
 
-### .module(moduleName)
+#### .module(moduleName)
 creates a module.
+
+Parameters
+ - moduleName (*string*) - the name of the module.
+
 ```JavaScript
 	var registration = aventador.module('registration');
 ```
 
-##### Parameters
- - moduleName (*string*) - the name of the module.
-
-### .controller(controllerName, controllerFunction)
+#### .controller(controllerName, controllerFunction)
 create a controller object
 
-##### Parameters
+Parameters
  - controllerName (*string*) - the name of the controller.
  - controllerFunction (*function*) - a module function that returns an object.
 
