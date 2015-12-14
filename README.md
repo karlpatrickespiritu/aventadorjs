@@ -32,6 +32,9 @@ API
 var myApp = aventador.module('myApp');
 ```
 
+**NOTE:**
+The following methods will only be accessible after calling the `module` method.
+
 #### .utility(utilityName, utilityFunction)
 > Creates a utility object. Think of utilities as somewhat like helpers.
 >
