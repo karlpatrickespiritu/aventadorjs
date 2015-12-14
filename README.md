@@ -116,6 +116,8 @@ myApp.factory('UsersFactory', function() {
 
 ```JavaScript
 myApp.controller('RegistrationController', function(UsersService) { // dependency injection
+    // `UsersService` is now available for use
+    
     return {
         register: register
     }
@@ -192,7 +194,7 @@ aventador
 	    }
 	})
 	.controller('RegistrationController', function(UsersService) { // Dependecy Injection
-		// `UsersService` is now available for use
+	    // `UsersService` is now available for use
 		
 	    return {
 	        register: register
