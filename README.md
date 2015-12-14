@@ -4,6 +4,8 @@
 
 A JavaScript application modules organizer.
 
+See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
+
 Installation
 --------
 via [npm](https://www.npmjs.com/)
@@ -15,11 +17,6 @@ via [bower](bower.io)
 ```sh
 $ bower install args-checker-js
 ```
-
-Aventador in Action
---------
-
-See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
 API
 --------
