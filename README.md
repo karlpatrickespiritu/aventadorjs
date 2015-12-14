@@ -21,7 +21,7 @@ Sample Application
 
 See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
-APIAPIAPI
+API
 --------
 
 #### .module(moduleName)
@@ -55,7 +55,6 @@ aventador
 ```
 
 .....
-
 Quick Usage
 --------
 **NOTE:** dummy data were used just to show an example.
