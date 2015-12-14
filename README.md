@@ -112,14 +112,16 @@ myApp.factory('UsersFactory', function() {
 > - controllerFunction (*function*) - a function that returns a controller object.
 
 ```JavaScript
-myApp.controller('RegistrationController', function() {
+myApp.controller('RegistrationController', function(UsersService) { // dependency injection
     return {
         register: register
     }
 
-    function register() {
-        // some badass logic here
-        return { registered: true, user: { name: 'john' } }
+    function register(data) {
+        // some badass logic here...
+        return UsersService.register(data, function(response) {
+			console.log(response)
+		})
     }
 });
 ```
@@ -166,6 +168,40 @@ var StringUtility = myApp.getUtility('StringUtility');
 
 ```JavaScript
 var UsersFactory = myApp.getFactory('UsersFactory');
+```
+
+### Dependency Injection
+[Dependency Injection](http://krasimirtsonev.com/blog/article/Dependency-injection-in-JavaScript) is supported in aventador js.
+
+Let's dive in directy on how to inject dependencies in components
+```JavaScript
+
+aventador
+	.module('myApp')
+	.service('UsersService', function() {
+		return {
+	        register: register
+	    }
+	
+	    // sample service using jQuery's $.post method
+	    function register(data, callback) {
+	        $.post('/some/api/request/path', data).done(callback || false);
+	    }
+	})
+	.controller('RegistrationController', function(UsersService) { // Dependecy Injection
+		// `UsersService` is now available for use
+		
+	    return {
+	        register: register
+	    }
+	
+	    function register(data) {
+	        // some badass logic here
+	        return UsersService.register(data, function(response) {
+				console.log(response)
+			})
+	    }
+	});
 ```
 
 
