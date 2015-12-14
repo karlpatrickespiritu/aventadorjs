@@ -16,7 +16,7 @@ via [bower](bower.io)
 $ bower install args-checker-js
 ```
 
-Sample Application
+Aventador in Action
 --------
 
 See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
@@ -55,6 +55,7 @@ aventador
 ```
 
 .....
+
 Quick Usage
 --------
 **NOTE:** dummy data were used just to show an example.
