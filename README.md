@@ -21,6 +21,42 @@ Sample Application
 
 See aventadorjs in action in [this sample app](http://karlpatrickespiritu.github.io/aventadorjs/sample-app/).
 
+API
+--------
+
+### .module(moduleName)
+creates a module.
+```JavaScript
+	var registration = aventador.module('registration');
+```
+
+##### Parameters
+ - moduleName (*string*) - the name of the module.
+
+### .controller(controllerName, controllerFunction)
+create a controller object
+
+##### Parameters
+ - controllerName (*string*) - the name of the controller.
+ - controllerFunction (*function*) - a module function that returns an object.
+
+```JavaScript
+aventador
+	.module('myApp')
+	.controller('RegistrationController', function() {
+		return {
+			someFunction: someFunction
+		}
+
+		function someFunction() {
+			// some logic here
+			return { foo: 'bar' }
+		}
+	});
+```
+
+.....
+
 Quick Usage
 --------
 **NOTE:** dummy data were used just to show an example.
