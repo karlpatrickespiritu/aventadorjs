@@ -22,23 +22,25 @@ API
 --------
 
 #### .module(moduleName)
-A module will serve as a container of the different parts of your app.
-
+> A module will serve as a container of the different parts of your app.
+>
+> Parameters:
+> 
 > - moduleName (*string*) - the name of the module.
 
 ```JavaScript
-// example
 var myApp = aventador.module('myApp');
 ```
 
 #### .utility(utilityName, utilityFunction)
-Creates a utility object. Think of utilities as somewhat like helpers.
-
+> Creates a utility object. Think of utilities as somewhat like helpers.
+>
+> Parameters:
+>
 > - utilityName (*string*) - utility name.
 > - utilityFunction (*function*) - a function that returns a utility object.
 
 ```JavaScript
-// example
 aventador
 	.module('myApp')
 	.utility('StringUtility', function() {
@@ -60,13 +62,12 @@ aventador
 #### .service(serviceName, serviceFunction)
 > Creates a service object. A service object may contain functions that involves fetching data from a server or the like.
 >
-> Parameters
+> Parameters:
 > 
 > - serviceName (*string*) - service name.
 > - serviceFunction (*function*) - a function that returns a service object.
 
 ```JavaScript
-// example
 aventador
 	.module('myApp')
 	.service('UsersService', function() {
@@ -82,13 +83,14 @@ aventador
 ```
 
 #### .factory(factoryName, factoryFunction)
-Creates a factory object. 
-
+> Creates a factory object. 
+>
+> Parameters:
+> 
 > - factoryName (*string*) - factory name.
 > - factoryFunction (*function*) - a function that returns a factory object.
 
 ```JavaScript
-// example
 aventador
 	.module('myApp')
 	.factory('UsersFactory', function() {
@@ -104,8 +106,10 @@ aventador
 ```
 
 #### .controller(controllerName, controllerFunction)
-Creates a controller object. A controller object may implement logic of a particular module.
-
+> Creates a controller object. A controller object may implement logic of a particular module.
+>
+> Parameters:
+> 
 > - controllerName (*string*) - controller name.
 > - controllerFunction (*function*) - a function that returns a controller object.
 
