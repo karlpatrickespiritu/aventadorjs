@@ -25,36 +25,63 @@ API
 --------
 
 #### .module(moduleName)
-> module will serve as a container of the different parts of your app.
+A module will serve as a container of the different parts of your app.
 
- - moduleName (*string*) - the name of the module.
+> - moduleName (*string*) - the name of the module.
 
 ```JavaScript
-	var registration = aventador.module('registration');
+// example
+var myApp = aventador.module('myApp');
 ```
 
 #### .controller(controllerName, controllerFunction)
-> creates a controller object.
+Creates a controller object. A controller object may implement logic of a particular module.
 
- - controllerName (*string*) - the name of the controller.
- - controllerFunction (*function*) - a module function that returns an object.
+> - controllerName (*string*) - controller name.
+> - controllerFunction (*function*) - a function that returns a controller object.
 
 ```JavaScript
+// example
 aventador
 	.module('myApp')
 	.controller('RegistrationController', function() {
 		return {
-			someFunction: someFunction
+			register: register
 		}
 
-		function someFunction() {
-			// some logic here
+		function register() {
+			// some badass login here
 			return { foo: 'bar' }
 		}
 	});
 ```
+#### .service(serviceName, serviceFunction)
+Creates a service object. A service object may contain functions that involves fetching data from a server or the like.
 
-.....
+> - serviceName (*string*) - service name.
+> - serviceFunction (*function*) - a function that returns a service object.
+
+```JavaScript
+// example
+aventador
+	.module('myApp')
+	.service('UsersService', function() {
+		return {
+			isLoggedIn: isLoggedIn,
+			register: register
+		}
+		
+		function isLoggedIn() {
+			// some API request to a server here.
+			return false;
+		}
+		
+ 		function register() {
+			// some API request to a server here.
+			return { status: 'ok', user: { name: 'john doe' } }
+		}
+	});
+```
 
 Quick Usage
 --------
