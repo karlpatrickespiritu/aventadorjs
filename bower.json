@@ -1,11 +1,11 @@
 {
   "name": "aventadorjs",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "homepage": "https://github.com/karlpatrickespiritu/aventadorjs",
   "authors": [
     "karlpatrickespiritu <karl.espiritu@corp.mobile.co>"
   ],
-  "description": "A JavaScript application modules organizer.",
+  "description": "javascript module organizer.",
   "keywords": [
     "js",
     "javascript",
