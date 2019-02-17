@@ -1,4 +1,4 @@
-# aventadorjs
+# DEPRECIATED
 
 [![Build Status](https://travis-ci.org/karlpatrickespiritu/aventadorjs.svg?branch=master)](https://travis-ci.org/karlpatrickespiritu/aventadorjs) [![npm version](https://badge.fury.io/js/aventadorjs.svg)](https://badge.fury.io/js/aventadorjs) [![Downloads](http://img.shields.io/npm/dm/aventadorjs.svg)](https://www.npmjs.com/package/aventadorjs)
 
